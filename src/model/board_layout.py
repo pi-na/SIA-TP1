@@ -25,6 +25,34 @@ class BoardLayout:
     max_col: int
 
     @classmethod
+    def from_explicit_floor(
+        cls,
+        floor_pos: Iterable[Position],
+        goals_pos: Iterable[Position],
+        walls_pos: Iterable[Position],
+    ) -> "BoardLayout":
+        floor = frozenset(floor_pos)
+        goals = frozenset(goals_pos)
+        walls = frozenset(walls_pos)
+
+        occupied_positions = (*floor, *goals, *walls)
+        rows = [row for row, _ in occupied_positions]
+        cols = [col for _, col in occupied_positions]
+
+        min_row, max_row = min(rows), max(rows)
+        min_col, max_col = min(cols), max(cols)
+
+        return cls(
+            walls=walls,
+            goals=goals,
+            floor=floor,
+            min_row=min_row,
+            max_row=max_row,
+            min_col=min_col,
+            max_col=max_col,
+        )
+
+    @classmethod
     def from_state_components(
         cls,
         player_pos: Position,
@@ -50,14 +78,10 @@ class BoardLayout:
             if (row, col) not in walls
         )
 
-        return cls(
-            walls=walls,
-            goals=goals,
-            floor=floor,
-            min_row=min_row,
-            max_row=max_row,
-            min_col=min_col,
-            max_col=max_col,
+        return cls.from_explicit_floor(
+            floor_pos=floor,
+            goals_pos=goals,
+            walls_pos=walls,
         )
 
     def is_floor(self, position: Position) -> bool:
