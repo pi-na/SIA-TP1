@@ -1,3 +1,4 @@
+from src.heuristics.min_matching import h_min_matching
 from src.heuristics.sokoban_heuristics import (
     h_combined,
     h_static_deadlock,
@@ -9,6 +10,7 @@ from src.heuristics.sokoban_heuristics import (
 
 __all__ = [
     "h_combined",
+    "h_min_matching",
     "h_static_deadlock",
     "h_zero",
     "heuristic_registry",

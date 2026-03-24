@@ -3,6 +3,8 @@ from __future__ import annotations
 from math import inf
 from typing import Any, Callable
 
+from src.heuristics.min_matching import h_min_matching
+
 HeuristicFn = Callable[[Any], float]
 
 
@@ -39,6 +41,7 @@ def make_combined_heuristic(
 heuristic_registry: dict[str, HeuristicFn] = {
     "zero": h_zero,
     "static_deadlock": h_static_deadlock,
+    "min_matching": h_min_matching,
     "combined": h_combined,
 }
 
@@ -61,6 +64,6 @@ def resolve_heuristic(
         raise ValueError(f"Unknown heuristic: {heuristic}")
 
     if heuristic == "combined":
-        return make_combined_heuristic(base_heuristic)
+        return make_combined_heuristic(base_heuristic or "min_matching")
 
     return heuristic_registry[heuristic]

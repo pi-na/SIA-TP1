@@ -32,7 +32,10 @@ def run_test():
         {"method": "bfs", "heuristic": None},
         {"method": "dfs", "heuristic": None},
         {"method": "greedy", "heuristic": "static_deadlock"},
-        {"method": "a_star", "heuristic": "static_deadlock"}
+        {"method": "a_star", "heuristic": "static_deadlock"},
+        {"method": "greedy", "heuristic": "min_matching"},
+        {"method": "a_star", "heuristic": "min_matching"},
+        {"method": "a_star", "heuristic": "combined"},
     ]
 
     print("=== Reporte de Ejecución de Sokoban ===\n")
