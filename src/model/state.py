@@ -79,7 +79,7 @@ class SokobanState:
     def is_goal(self):
         return self.boxes == self.goals
 
-    def get_successors(self):
+    def get_successors(self, allow_deadlocks=True):
         successors = []
         moves = {"UP": (-1, 0), "DOWN": (1, 0), "LEFT": (0, -1), "RIGHT": (0, 1)}
         layout = self.get_board_layout()
@@ -99,7 +99,7 @@ class SokobanState:
                     continue
                 if new_box_pos in self.boxes:
                     continue
-                if self.moved_box_into_forbidden_tile(new_box_pos):
+                if not allow_deadlocks and self.moved_box_into_forbidden_tile(new_box_pos):
                     continue
 
                 new_boxes = set(self.boxes)

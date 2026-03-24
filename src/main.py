@@ -1,36 +1,67 @@
-from src.engine.search import search
+import time
 from src.model.state import SokobanState
+from src.engine.search import search
 
-player = (1, 1)
-boxes = [(2, 2)]
-goals = [(3, 3)]
-walls = [(0,0), (0,1), (0,2), (0,3), (0,4), (4,0), (4,4)]
 
-initial_state = SokobanState(player, boxes, goals, walls)
+def run_test():
+    # Representación ASCII extraída de image_009865.png
+    level_layout = """
+    #################
+    #......#        #
+    #......#   $    #
+    #......#      $ #
+    #......###      #
+    #......#  #  ####
+    #......#  $  #  #
+    #      #     #  #
+    #  P   #######  #
+    #      #        #
+    #  #####   $    #
+    #  #            #
+    #  #   $   $   $#
+    #  #            #
+    #################
+    """
 
-def mi_heuristica(state):
-    #TODO: Implementar heuristica
-    return 0
+    # 1. Construir el estado inicial
+    # Nota: Usamos la lógica de demo_static_deadlocks.py para parsear
+    from demo_static_deadlocks import build_state_from_ascii
+    initial_state = build_state_from_ascii(level_layout)
 
-# Ejecución
-print("Ejecutando BFS...")
-resultado = search(initial_state, method='bfs')
+    methods = [
+        {"method": "bfs", "heuristic": None},
+        {"method": "dfs", "heuristic": None},
+        {"method": "greedy", "heuristic": "static_deadlock"},
+        {"method": "a_star", "heuristic": "static_deadlock"}
+    ]
 
-if resultado["result"] == "Success":
-    print("¡Solución encontrada!")
-    print(f"Pasos: {resultado['cost']}")
+    print("=== Reporte de Ejecución de Sokoban ===\n")
 
-    estado_actual = initial_state
-    print("Estado Inicial:")
-    print(estado_actual.render())
+    for m in methods:
+        print(f"Probando método: {m['method'].upper()}")
+        if m['heuristic']:
+            print(f"Heurística: {m['heuristic']}")
 
-    for paso, accion in enumerate(resultado["path"]):
-        input(f"Presiona Enter para ver el paso {paso + 1}: {accion}...")
-        for act, proximo_estado in estado_actual.get_successors():
-            if act == accion:
-                estado_actual = proximo_estado
-                break
-        print(estado_actual.render())
+        start_time = time.perf_counter()
 
-print(f"Resultado: {resultado['result']} | Costo: {resultado['cost']} | Expandidos: {resultado['nodes_expanded']}")
-print(f"Camino: {resultado['path']}")
+        result = search(
+            initial_state,
+            method=m['method'],
+            heuristic=m['heuristic']
+        )
+
+        end_time = time.perf_counter()
+        elapsed = end_time - start_time
+
+        # Mostrar resultados
+        print(f"○ Resultado: {result['result']}")
+        print(f"○ Costo de la solución: {result['cost']}")
+        print(f"○ Cantidad de nodos expandidos: {result['nodes_expanded']}")
+        print(f"○ Cantidad de nodos frontera: {result['frontier_count']}")
+        print(f"○ Tiempo de procesamiento: {elapsed:.4f} segundos")
+        print(f"○ Solución: {result['path']}")
+        print("-" * 40)
+
+
+if __name__ == "__main__":
+    run_test()

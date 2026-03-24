@@ -122,7 +122,7 @@ def search(
             explored.add(node.state)
             nodes_expanded += 1
 
-            for action, next_state in node.state.get_successors():
+            for action, next_state in node.state.get_successors(allow_deadlocks=(method in ['bfs', 'dfs'])):
                 if next_state not in explored:
                     h_val = resolved_heuristic(next_state) if resolved_heuristic else 0
                     if resolved_heuristic and isinf(h_val):
