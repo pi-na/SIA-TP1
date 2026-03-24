@@ -1,69 +1,90 @@
 import time
-from src.model.state import SokobanState
+from src.demo_static_deadlocks import build_state_from_ascii
 from src.engine.search import search
 
 
+LEVELS = {
+    "Nivel 1 — 2 cajas cruzadas": """
+        ######
+        # #  #
+        # $. #
+        # .$ #
+        # P  #
+        ######
+    """,
+    "Nivel 2 — 3 cajas open": """
+        ########
+        #      #
+        # .$   #
+        # $P$  #
+        #   .  #
+        #  .   #
+        ########
+    """,
+    "Nivel 3 — 3 cajas lineal": """
+        #######
+        #     #
+        # $ . #
+        # $P. #
+        # $ . #
+        #     #
+        #######
+    """,
+    "Nivel 4 — Microban 1": """
+        ####
+        # .#
+        #  ###
+        #*P  #
+        #  $ #
+        #  ###
+        ####
+    """,
+}
+
+METHODS = [
+    {"method": "bfs", "heuristic": None},
+    {"method": "dfs", "heuristic": None},
+    {"method": "greedy", "heuristic": "static_deadlock"},
+    {"method": "a_star", "heuristic": "static_deadlock"},
+    {"method": "greedy", "heuristic": "min_matching"},
+    {"method": "a_star", "heuristic": "min_matching"},
+    {"method": "a_star", "heuristic": "combined"},
+]
+
+
 def run_test():
-    # Representación ASCII extraída de image_009865.png
-    level_layout = """
-    #################
-    #......#        #
-    #......#   $    #
-    #......#      $ #
-    #......###      #
-    #......#  #  ####
-    #......#  $  #  #
-    #      #     #  #
-    #  P   #######  #
-    #      #        #
-    #  #####   $    #
-    #  #            #
-    #  #   $   $   $#
-    #  #            #
-    #################
-    """
-
-    # 1. Construir el estado inicial
-    # Nota: Usamos la lógica de demo_static_deadlocks.py para parsear
-    from demo_static_deadlocks import build_state_from_ascii
-    initial_state = build_state_from_ascii(level_layout)
-
-    methods = [
-        {"method": "bfs", "heuristic": None},
-        {"method": "dfs", "heuristic": None},
-        {"method": "greedy", "heuristic": "static_deadlock"},
-        {"method": "a_star", "heuristic": "static_deadlock"},
-        {"method": "greedy", "heuristic": "min_matching"},
-        {"method": "a_star", "heuristic": "min_matching"},
-        {"method": "a_star", "heuristic": "combined"},
-    ]
-
     print("=== Reporte de Ejecución de Sokoban ===\n")
 
-    for m in methods:
-        print(f"Probando método: {m['method'].upper()}")
-        if m['heuristic']:
-            print(f"Heurística: {m['heuristic']}")
+    for level_name, level_layout in LEVELS.items():
+        initial_state = build_state_from_ascii(level_layout)
+        num_boxes = len(initial_state.boxes)
+        num_goals = len(initial_state.goals)
 
-        start_time = time.perf_counter()
+        print(f"{'=' * 60}")
+        print(f"{level_name} (cajas={num_boxes}, goals={num_goals})")
+        print(f"{'=' * 60}")
+        print(initial_state.render())
 
-        result = search(
-            initial_state,
-            method=m['method'],
-            heuristic=m['heuristic']
-        )
+        for m in METHODS:
+            method_label = m["method"].upper()
+            heuristic_label = m["heuristic"] or "ninguna"
 
-        end_time = time.perf_counter()
-        elapsed = end_time - start_time
+            start_time = time.perf_counter()
+            result = search(
+                initial_state,
+                method=m["method"],
+                heuristic=m["heuristic"],
+            )
+            elapsed = time.perf_counter() - start_time
 
-        # Mostrar resultados
-        print(f"○ Resultado: {result['result']}")
-        print(f"○ Costo de la solución: {result['cost']}")
-        print(f"○ Cantidad de nodos expandidos: {result['nodes_expanded']}")
-        print(f"○ Cantidad de nodos frontera: {result['frontier_count']}")
-        print(f"○ Tiempo de procesamiento: {elapsed:.4f} segundos")
-        print(f"○ Solución: {result['path']}")
-        print("-" * 40)
+            print(f"  {method_label:7s} | h={heuristic_label:16s} | "
+                  f"{result['result']:7s} | "
+                  f"costo={str(result['cost']):>5s} | "
+                  f"nodos_exp={result['nodes_expanded']:>6d} | "
+                  f"frontera={result['frontier_count']:>5d} | "
+                  f"{elapsed*1000:>7.1f}ms")
+
+        print()
 
 
 if __name__ == "__main__":

@@ -110,7 +110,7 @@ class StaticDeadlockTests(unittest.TestCase):
             """
         )
 
-        actions = [action for action, _ in state.get_successors()]
+        actions = [action for action, _ in state.get_successors(allow_deadlocks=False)]
 
         self.assertIn((1, 3), state.get_static_deadlock_info().forbidden_box_tiles)
         self.assertNotIn("RIGHT", actions)
