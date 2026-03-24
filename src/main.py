@@ -33,7 +33,7 @@ LEVELS = {
     """
 }
 
-
+#TODO:_ agregar heuristicas
 METHODS = [
     {"method": "bfs", "heuristic": None, "cat": "Óptimo"},
     {"method": "a_star", "heuristic": "min_matching", "cat": "Óptimo"},
