@@ -1,0 +1,161 @@
+levels_file,level_name,level_index,run_id,iteration,seed,run_seed,algorithm,algorithm_label,heuristic,category,solver_label,deadlock_policy,allow_deadlocks,time_seconds,cost,nodes_expanded,frontier_count,result
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,1,1,50,50,bfs,BFS,none,optimal,BFS (prune),prune,False,5.2749994210898876e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,2,2,50,51,bfs,BFS,none,optimal,BFS (prune),prune,False,2.5958011974580586e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,3,3,50,52,bfs,BFS,none,optimal,BFS (prune),prune,False,2.2250009351409972e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,4,4,50,53,bfs,BFS,none,optimal,BFS (prune),prune,False,1.9875005818903446e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,5,5,50,54,bfs,BFS,none,optimal,BFS (prune),prune,False,1.925000105984509e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,6,6,50,55,bfs,BFS,none,optimal,BFS (prune),prune,False,1.9041995983570814e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,7,7,50,56,bfs,BFS,none,optimal,BFS (prune),prune,False,1.8999999156221747e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,8,8,50,57,bfs,BFS,none,optimal,BFS (prune),prune,False,1.879199407994747e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,9,9,50,58,bfs,BFS,none,optimal,BFS (prune),prune,False,1.8999999156221747e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,10,10,50,59,bfs,BFS,none,optimal,BFS (prune),prune,False,1.8874998204410076e-05,1,4,6,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,11,1,50,60,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,5.8124991483055055e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,12,2,50,61,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.7416008631698787e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,13,3,50,62,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.4875011402182281e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,14,4,50,63,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.3959011994302273e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,15,5,50,64,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.3707991456612945e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,16,6,50,65,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.375000283587724e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,17,7,50,66,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.3625001884065568e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,18,8,50,67,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.3540993677452207e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,19,9,50,68,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.5749988961033523e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,20,10,50,69,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,1.3625001884065568e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,21,1,50,70,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,1.0250005288980901e-05,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,22,2,50,71,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.83399513643235e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,23,3,50,72,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.37501317821443e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,24,4,50,73,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.750001481734216e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,25,5,50,74,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.415991371497512e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,26,6,50,75,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.25001222640276e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,27,7,50,76,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.167008101940155e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,28,8,50,77,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.333991329185665e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,29,9,50,78,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.41600592341274e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,30,10,50,79,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,9.208000847138464e-06,1,1,3,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,31,1,50,80,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.3290995159186423e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,32,2,50,81,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.158299321308732e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,33,3,50,82,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.154200046788901e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,34,4,50,83,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.1625004592351615e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,35,5,50,84,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.1458006813190877e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,36,6,50,85,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.1167012164369226e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,37,7,50,86,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.1334009943529963e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,38,8,50,87,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.1209008991718292e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,39,9,50,88,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.141699951607734e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,40,10,50,89,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,2.141699951607734e-05,1,3,5,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,41,1,50,90,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00032383301004301757,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,42,2,50,91,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0002949579939013347,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,43,3,50,92,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00030216599407140166,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,44,4,50,93,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0002918329992098734,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,45,5,50,94,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00030133299878798425,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,46,6,50,95,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00029783399077132344,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,47,7,50,96,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00029233298846520483,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,48,8,50,97,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00029233298846520483,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,49,9,50,98,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00029149999318178743,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,50,10,50,99,bfs,BFS,none,optimal,BFS (prune),prune,False,0.000295541001833044,7,71,25,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,51,1,50,100,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0005686250078724697,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,52,2,50,101,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0004735000111395493,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,53,3,50,102,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0004668339970521629,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,54,4,50,103,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.00046370801283046603,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,55,5,50,104,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.00046112498966977,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,56,6,50,105,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0005312910070642829,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,57,7,50,106,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0005106250027893111,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,58,8,50,107,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0004612500051734969,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,59,9,50,108,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0005339170020306483,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,60,10,50,109,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.00047041699872352183,7,47,20,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,61,1,50,110,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006399589910870418,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,62,2,50,111,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006195000023581088,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,63,3,50,112,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006221249932423234,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,64,4,50,113,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006926250061951578,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,65,5,50,114,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0008283750066766515,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,66,6,50,115,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0007772499957354739,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,67,7,50,116,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0008615409897174686,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,68,8,50,117,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006317920051515102,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,69,9,50,118,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006563329952768981,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,70,10,50,119,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0006205410027178004,7,63,56,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,71,1,50,120,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0005711250123567879,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,72,2,50,121,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0005644159973599017,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,73,3,50,122,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.00044249999336898327,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,74,4,50,123,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.00043987500248476863,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,75,5,50,124,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0004264590097591281,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,76,6,50,125,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0006763749988749623,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,77,7,50,126,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.003246833002776839,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,78,8,50,127,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0023479169904021546,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,79,9,50,128,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0031359160057036206,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,80,10,50,129,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.002009709001868032,7,72,24,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,81,1,50,130,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0041987079894170165,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,82,2,50,131,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0034434169938322157,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,83,3,50,132,bfs,BFS,none,optimal,BFS (prune),prune,False,0.005640167000819929,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,84,4,50,133,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0044752499961759895,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,85,5,50,134,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0031979170016711578,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,86,6,50,135,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0037258340016705915,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,87,7,50,136,bfs,BFS,none,optimal,BFS (prune),prune,False,0.004433082998730242,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,88,8,50,137,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0032597499957773834,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,89,9,50,138,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00330420900718309,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,90,10,50,139,bfs,BFS,none,optimal,BFS (prune),prune,False,0.00440179200086277,15,680,207,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,91,1,50,140,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0024048339982982725,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,92,2,50,141,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0030694159941049293,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,93,3,50,142,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.002179000002797693,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,94,4,50,143,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0020788339897990227,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,95,5,50,144,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.002198832997237332,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,96,6,50,145,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.002091582995490171,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,97,7,50,146,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0023748330131638795,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,98,8,50,147,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0021229159901849926,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,99,9,50,148,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.002277499996125698,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,100,10,50,149,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.00214341699029319,15,149,122,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,101,1,50,150,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.008376166995731182,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,102,2,50,151,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.015471082995645702,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,103,3,50,152,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.021515166998142377,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,104,4,50,153,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.013507125011528842,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,105,5,50,154,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.029664875008165836,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,106,6,50,155,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.017045749991666526,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,107,7,50,156,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.008059707994107157,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,108,8,50,157,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.008835125001496635,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,109,9,50,158,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.011969708997639827,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,110,10,50,159,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.008356582999113016,15,534,484,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,111,1,50,160,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.005013666013837792,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,112,2,50,161,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.00430624998989515,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,113,3,50,162,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.004357375000836328,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,114,4,50,163,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0039692079881206155,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,115,5,50,164,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.004163666992099024,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,116,6,50,165,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.003911708001396619,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,117,7,50,166,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.003973250000854023,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,118,8,50,167,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.00398325000423938,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,119,9,50,168,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.004076291996170767,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,120,10,50,169,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.004151125001953915,15,633,215,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,121,1,50,170,bfs,BFS,none,optimal,BFS (prune),prune,False,0.000956832998781465,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,122,2,50,171,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0009708330035209656,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,123,3,50,172,bfs,BFS,none,optimal,BFS (prune),prune,False,0.001271458007977344,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,124,4,50,173,bfs,BFS,none,optimal,BFS (prune),prune,False,0.001916957990033552,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,125,5,50,174,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0010856250009965152,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,126,6,50,175,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0009443330054637045,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,127,7,50,176,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0009564170031808317,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,128,8,50,177,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0010598340013530105,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,129,9,50,178,bfs,BFS,none,optimal,BFS (prune),prune,False,0.0013035000010859221,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,130,10,50,179,bfs,BFS,none,optimal,BFS (prune),prune,False,0.001524000006611459,13,235,44,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,131,1,50,180,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0019911249983124435,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,132,2,50,181,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.001713749996270053,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,133,3,50,182,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.001706499999272637,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,134,4,50,183,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0017217910062754527,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,135,5,50,184,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0015990829997463152,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,136,6,50,185,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.001568042003782466,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,137,7,50,186,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.001757915990310721,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,138,8,50,187,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0015658749907743186,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,139,9,50,188,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0017487089935457334,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,140,10,50,189,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0016640829999232665,13,147,37,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,141,1,50,190,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0022654589993180707,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,142,2,50,191,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.00209516599716153,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,143,3,50,192,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0021660830097971484,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,144,4,50,193,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0021019170089857653,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,145,5,50,194,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0021535840060096234,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,146,6,50,195,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0022485410008812323,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,147,7,50,196,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0033223750069737434,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,148,8,50,197,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.002618957994855009,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,149,9,50,198,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.0021804169955430552,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,150,10,50,199,a_star,A*,min_matching,optimal,"A* (min_matching, allow)",allow,True,0.00223629099491518,13,212,71,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,151,1,50,200,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0016063749935710803,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,152,2,50,201,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0017369580018566921,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,153,3,50,202,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0012964170018676668,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,154,4,50,203,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0012454170064302161,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,155,5,50,204,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.001568042003782466,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,156,6,50,205,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0017212079983437434,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,157,7,50,206,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.001404208000167273,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,158,8,50,207,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0012140830076532438,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,159,9,50,208,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0013965409889351577,13,219,42,Success
+/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,160,10,50,209,a_star,A*,static_deadlock,optimal,"A* (static_deadlock, allow)",allow,True,0.0012113330012653023,13,219,42,Success
