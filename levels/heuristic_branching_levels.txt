@@ -1,0 +1,48 @@
+; Nivel 1 - Sala abierta ancha
+#########
+#       #
+#  $$  .#
+#   P  .#
+#       #
+#########
+
+
+; Nivel 2 - Sala abierta en escalon
+##########
+#        #
+#  $$  . #
+#   P  . #
+#   $  . #
+#        #
+##########
+
+
+; Nivel 3 - Galeria central
+##########
+#   .    #
+# $$# $  #
+#   #    #
+# . P .  #
+#        #
+##########
+
+
+; Nivel 4 - Triangulo abierto
+##########
+# .    . #
+#  $ $   #
+#   #    #
+#  $ P . #
+#        #
+##########
+
+
+; Nivel 5 - Sala abierta exigente
+#########
+#   .   #
+# $## # #
+#   $   #
+### #$# #
+# . P . #
+#       #
+#########
