@@ -74,6 +74,13 @@ Las corridas crudas guardan una fila por experimento con:
 - `frontier_count`
 - resultado
 
+La poda de deadlocks de sucesores se puede controlar desde CLI:
+
+- `--allow-deadlocks`
+- `--prune-deadlocks`
+
+Si no se pasa ninguno de esos flags, se mantiene el comportamiento historico dependiente del metodo.
+
 ### Ejecutar benchmarks
 
 Con el set por defecto de 4 niveles:

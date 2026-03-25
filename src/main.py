@@ -145,6 +145,20 @@ def build_argument_parser() -> argparse.ArgumentParser:
         default=DEFAULT_OUTPUT_DIR,
         help="Directory where raw data, summaries, plots and conclusions are written.",
     )
+    deadlock_group = parser.add_mutually_exclusive_group()
+    deadlock_group.add_argument(
+        "--allow-deadlocks",
+        dest="allow_deadlocks",
+        action="store_true",
+        help="Allow deadlock-producing successors during search.",
+    )
+    deadlock_group.add_argument(
+        "--prune-deadlocks",
+        dest="allow_deadlocks",
+        action="store_false",
+        help="Prune deadlock-producing successors during search.",
+    )
+    parser.set_defaults(allow_deadlocks=None)
     return parser
 
 
@@ -207,6 +221,7 @@ def run_experiments(
     iterations: int,
     seed: int,
     progress: bool = False,
+    allow_deadlocks: bool | None = None,
 ) -> pd.DataFrame:
     if iterations <= 0:
         raise ValueError("iterations must be greater than zero.")
@@ -248,6 +263,7 @@ def run_experiments(
                     method=method.algorithm,
                     heuristic=None if method.heuristic == "none" else method.heuristic,
                     base_heuristic=method.base_heuristic,
+                    allow_deadlocks=allow_deadlocks,
                 )
                 elapsed = time.perf_counter() - start_time
 
@@ -710,6 +726,7 @@ def print_console_summary(
     levels: list[LevelDefinition],
     output_paths: dict[str, Path | bool],
     conclusions_path: Path,
+    allow_deadlocks: bool | None,
 ) -> None:
     print()
     print("=" * 72)
@@ -717,6 +734,12 @@ def print_console_summary(
     print("=" * 72)
     print(f"Niveles evaluados: {len(levels)}")
     print(f"Corridas totales: {len(raw_df)}")
+    if allow_deadlocks is None:
+        print("Deadlock pruning: method-dependent default")
+    elif allow_deadlocks:
+        print("Deadlock pruning: disabled for successor generation")
+    else:
+        print("Deadlock pruning: enabled for successor generation")
     print()
     print("Resumen agregado:")
     print(
@@ -749,6 +772,7 @@ def run_pipeline(
     output_dir: Path,
     level_selectors: list[str] | None = None,
     progress: bool = False,
+    allow_deadlocks: bool | None = None,
 ) -> dict[str, object]:
     levels = select_levels(load_levels_from_file(levels_file), level_selectors)
     directories = create_output_directories(output_dir)
@@ -757,6 +781,7 @@ def run_pipeline(
         iterations=iterations,
         seed=seed,
         progress=progress,
+        allow_deadlocks=allow_deadlocks,
     )
     summary_df = build_summary(raw_df)
     output_paths = save_tabular_outputs(raw_df, summary_df, directories)
@@ -789,6 +814,7 @@ def main(argv: list[str] | None = None) -> int:
         output_dir=args.output_dir,
         level_selectors=args.levels,
         progress=True,
+        allow_deadlocks=args.allow_deadlocks,
     )
 
     print_console_summary(
@@ -797,6 +823,7 @@ def main(argv: list[str] | None = None) -> int:
         pipeline_result["levels"],
         pipeline_result["output_paths"],
         pipeline_result["conclusions_path"],
+        args.allow_deadlocks,
     )
     return 0
 

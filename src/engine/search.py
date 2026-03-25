@@ -64,6 +64,7 @@ def search(
     heuristic=None,
     heuristic_fn=None,
     base_heuristic=None,
+    allow_deadlocks=None,
 ):
     method = _normalize_method(method)
     if method not in {"bfs", "dfs", "greedy", "a_star"}:
@@ -82,6 +83,9 @@ def search(
     start_heuristic = resolved_heuristic(initial_state) if resolved_heuristic else 0
     if method in {"greedy", "a_star"} and isinf(start_heuristic):
         return _failure_result()
+
+    if allow_deadlocks is None:
+        allow_deadlocks = method in {"bfs", "dfs"}
 
     start_node = Node(
         initial_state,
@@ -122,7 +126,7 @@ def search(
             explored.add(node.state)
             nodes_expanded += 1
 
-            for action, next_state in node.state.get_successors(allow_deadlocks=(method in ['bfs', 'dfs'])):
+            for action, next_state in node.state.get_successors(allow_deadlocks=allow_deadlocks):
                 if next_state not in explored:
                     h_val = resolved_heuristic(next_state) if resolved_heuristic else 0
                     if resolved_heuristic and isinf(h_val):
