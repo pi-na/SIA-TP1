@@ -208,7 +208,7 @@ python3 -m pytest tests/test_level_io.py tests/test_experiment_runner.py -v
 | BFS | Desinformado | Cola FIFO | Si | Si |
 | DFS | Desinformado | Pila LIFO | No | No |
 | Greedy | Informado | Min-heap por h | No | No |
-| A* | Informado | Min-heap por g+h | Si (con h admisible) | Si |
+| A* | Informado | Min-heap por g+h con reaperturas | Si (con h admisible) | Si |
 
 ## Heuristicas
 
@@ -247,9 +247,31 @@ print(resultado["result"])
 print(resultado["cost"])
 print(resultado["nodes_expanded"])
 print(resultado["frontier_count"])
+print(resultado["stale_skipped"])
+print(resultado["reopened_states"])
+print(resultado["heuristic_cache_hits"])
 print(resultado["path"])
 ```
 
 Metodos disponibles: `"bfs"`, `"dfs"`, `"greedy"`, `"a_star"` y alias `"astar"`.
 
 Heuristicas disponibles: `"static_deadlock"`, `"min_matching"`, `"combined"` y `"zero"`.
+
+El resultado programatico de `search(...)` incluye siempre:
+
+- `result`
+- `cost`
+- `nodes_expanded`
+- `frontier_count`
+- `path`
+- `stale_skipped`
+- `reopened_states`
+- `heuristic_cache_hits`
+
+Notas sobre A*:
+
+- `frontier_count` cuenta estados vivos en la abierta, no entradas obsoletas del heap.
+- `stale_skipped` cuenta pops descartados por entradas viejas o duplicados ya cerrados.
+- `reopened_states` cuenta estados cerrados que se reabren por encontrar un mejor `g`.
+- `heuristic_cache_hits` cuenta reutilizaciones del cache local de heuristica dentro de una corrida.
+- Los CSV del runner experimental mantienen sus columnas historicas en este paso.

@@ -197,6 +197,25 @@ class MinMatchingTests(unittest.TestCase):
         self.assertEqual(result["result"], "Success")
         self.assertEqual(result["cost"], 1)
 
+    def test_a_star_with_min_matching_matches_bfs_cost_on_small_level(self):
+        state = build_state(
+            """
+            #######
+            #     #
+            # $.  #
+            # .$  #
+            #  P  #
+            #######
+            """
+        )
+
+        bfs_result = search(state, method="bfs")
+        astar_result = search(state, method="a_star", heuristic="min_matching")
+
+        self.assertEqual(bfs_result["result"], "Success")
+        self.assertEqual(astar_result["result"], "Success")
+        self.assertEqual(astar_result["cost"], bfs_result["cost"])
+
     def test_search_with_combined_uses_min_matching_by_default(self):
         """search con heuristic='combined' sin base_heuristic usa min_matching por defecto."""
         state = build_state(
@@ -211,6 +230,25 @@ class MinMatchingTests(unittest.TestCase):
         result = search(state, method="a_star", heuristic="combined")
         self.assertEqual(result["result"], "Success")
         self.assertEqual(result["cost"], 1)
+
+    def test_a_star_with_combined_matches_bfs_cost_on_small_level(self):
+        state = build_state(
+            """
+            #######
+            #     #
+            # $.  #
+            # .$  #
+            #  P  #
+            #######
+            """
+        )
+
+        bfs_result = search(state, method="bfs")
+        astar_result = search(state, method="a_star", heuristic="combined")
+
+        self.assertEqual(bfs_result["result"], "Success")
+        self.assertEqual(astar_result["result"], "Success")
+        self.assertEqual(astar_result["cost"], bfs_result["cost"])
 
 
 if __name__ == "__main__":
