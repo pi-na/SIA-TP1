@@ -153,6 +153,10 @@ def configure_seed(seed: int) -> None:
     np.random.seed(seed)
 
 
+def print_progress(message: str) -> None:
+    print(message, flush=True)
+
+
 def normalize_level_selectors(selectors: list[str] | None) -> list[str]:
     normalized = []
     for selector in selectors or []:
@@ -202,20 +206,41 @@ def run_experiments(
     levels: list[LevelDefinition],
     iterations: int,
     seed: int,
+    progress: bool = False,
 ) -> pd.DataFrame:
     if iterations <= 0:
         raise ValueError("iterations must be greater than zero.")
 
     records = []
     run_id = 1
+    total_runs = len(levels) * len(METHOD_GRID) * iterations
 
-    for level in levels:
+    if progress:
+        print_progress(
+            f"Starting benchmark run: {len(levels)} levels, "
+            f"{len(METHOD_GRID)} methods, {iterations} iterations "
+            f"({total_runs} total runs)"
+        )
+
+    for level_position, level in enumerate(levels, start=1):
         initial_state = level.build_initial_state()
+
+        if progress:
+            print_progress(
+                f"[Level {level_position}/{len(levels)}] "
+                f"{level.level_name} ({level.level_index})"
+            )
 
         for method in METHOD_GRID:
             for iteration in range(1, iterations + 1):
                 run_seed = seed + run_id - 1
                 configure_seed(run_seed)
+
+                if progress:
+                    print_progress(
+                        f"  -> run {run_id}/{total_runs}: {method.solver_label} "
+                        f"(iteration {iteration}/{iterations})"
+                    )
 
                 start_time = time.perf_counter()
                 result = search(
@@ -225,6 +250,15 @@ def run_experiments(
                     base_heuristic=method.base_heuristic,
                 )
                 elapsed = time.perf_counter() - start_time
+
+                if progress:
+                    print_progress(
+                        f"     {result.get('result', 'Failure')} | "
+                        f"cost={result.get('cost')} | "
+                        f"nodes={result.get('nodes_expanded', 0)} | "
+                        f"frontier={result.get('frontier_count', 0)} | "
+                        f"time={elapsed:.4f}s"
+                    )
 
                 records.append(
                     {
@@ -714,14 +748,24 @@ def run_pipeline(
     seed: int,
     output_dir: Path,
     level_selectors: list[str] | None = None,
+    progress: bool = False,
 ) -> dict[str, object]:
     levels = select_levels(load_levels_from_file(levels_file), level_selectors)
     directories = create_output_directories(output_dir)
-    raw_df = run_experiments(levels, iterations=iterations, seed=seed)
+    raw_df = run_experiments(
+        levels,
+        iterations=iterations,
+        seed=seed,
+        progress=progress,
+    )
     summary_df = build_summary(raw_df)
     output_paths = save_tabular_outputs(raw_df, summary_df, directories)
+    if progress:
+        print_progress("Generating plots and conclusions...")
     conclusions = generate_plots_and_conclusions(raw_df, summary_df, directories["plots"])
     conclusions_path = write_conclusions(conclusions, directories["conclusions"])
+    if progress:
+        print_progress("Benchmark run finished.")
 
     return {
         "levels": levels,
@@ -744,6 +788,7 @@ def main(argv: list[str] | None = None) -> int:
         seed=args.seed,
         output_dir=args.output_dir,
         level_selectors=args.levels,
+        progress=True,
     )
 
     print_console_summary(
