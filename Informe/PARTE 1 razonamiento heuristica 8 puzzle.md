@@ -1,3 +1,38 @@
+![[Pasted image 20260325123955.png|207]]
+Un tablero solución sería el que cumple las condiciones en el tablero de la foto.
+**El vacío es el 9**
+1,2 ; 1,4
+2,1 ; 2,5 ; 2,3
+3,2 ; 3,6
+4,1 ; 4,5 ; 4,7
+5,4 ; 5,2 ; 5,6 ; 5,8
+6,5 ; 6,3 ; 6,9
+7,4 ; 7,8
+8,7 ; 8,5 ; 8,9
+
+El 5 es adyacente a 4 numeros a la vez -> El 5 va en el medio SIEMPRE
+Tengo 4 combinaciones para poner el 2, el 4, el 6 y el 7.
+
+
+1,2 ; 1,4
+2,3
+3,6
+4,7
+5,4 ; 5,2 ; 5,6 ; 5,8
+6,9
+7,8
+8,9
+
+
+
+
+
+
+
+
+
+
+
 Sí, podés tener una heurística **por casos** y que siga siendo admisible. El punto no es que “cambie según el estado”, sino que en **cada caso** el valor que devuelva sea una **cota inferior** del costo óptimo restante hasta **algún estado solución**.
 
 ## 1) Observación clave: el 5 necesariamente va al centro

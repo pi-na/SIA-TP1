@@ -1,93 +1,197 @@
 # SIA - TP1: Metodos de Busqueda
 
-Trabajo Practico 1 de Sistemas de Inteligencia Artificial (ITBA). Implementacion de un solver de **Sokoban** usando algoritmos de busqueda informados y desinformados, con heuristicas admisibles.
+Trabajo Practico 1 de Sistemas de Inteligencia Artificial (ITBA). El proyecto implementa un solver de **Sokoban** con BFS, DFS, Greedy y A*, y ahora incluye un runner de experimentos reproducible para comparar metodos y heuristicas sobre cualquier coleccion de niveles ASCII.
 
 ## Requisitos
 
 - Python 3.10+
 - scipy
 - numpy
-- pytest (para correr tests)
+- pandas
+- matplotlib
+- seaborn
+- pytest
 
 ## Instalacion
 
 ```bash
-pip install scipy numpy pytest
+pip install scipy numpy pandas matplotlib seaborn pytest
 ```
 
 ## Estructura del proyecto
 
 ```
+levels/
+  default_levels.txt       # Coleccion ASCII por defecto con 4 niveles
 src/
   model/
-    board_layout.py         # BoardLayout: datos estaticos del tablero (paredes, goals, piso)
-    state.py                # SokobanState: estado del juego, generacion de sucesores
+    board_layout.py        # BoardLayout: datos estaticos del tablero
+    state.py               # SokobanState: estado del juego y sucesores
   engine/
-    search.py               # Algoritmos: BFS, DFS, Greedy, A*
+    search.py              # BFS, DFS, Greedy y A*
   heuristics/
-    static_deadlocks.py     # Deteccion de deadlocks estaticos (BFS inverso desde goals)
-    min_matching.py          # Minimum matching: asignacion optima cajas-goals (Hungaro)
-    sokoban_heuristics.py   # Registro de heuristicas, combinacion con max
-  demo_static_deadlocks.py  # Demo de visualizacion de deadlocks
-  main.py                   # Punto de entrada: ejecuta todos los metodos sobre 4 niveles
+    static_deadlocks.py    # Deteccion de deadlocks estaticos
+    min_matching.py        # Minimum matching con algoritmo Hungaro
+    sokoban_heuristics.py  # Registro de heuristicas y combinaciones
+  level_io.py              # Parser ASCII y loader de archivos de niveles
+  demo_static_deadlocks.py # Demo de visualizacion de deadlocks
+  main.py                  # Runner experimental generico
 tests/
-  test_static_deadlocks.py  # Tests de deteccion de deadlocks
-  test_min_matching.py      # Tests de minimum matching
-Informe/                    # Reportes del TP
-Catedra/                    # Material de la catedra
+  test_static_deadlocks.py
+  test_min_matching.py
+  test_level_io.py
+  test_experiment_runner.py
+Informe/
+Catedra/
 ```
 
-## Comandos
+## Runner experimental
 
-### Ejecutar el solver
+`src.main` corre una matriz fija de comparacion:
 
-Corre los 4 niveles de prueba con los 7 metodos (BFS, DFS, Greedy, A* con distintas heuristicas) y muestra una tabla comparativa con costo, nodos expandidos, frontera y tiempo:
+- `BFS`
+- `DFS`
+- `Greedy(static_deadlock)`
+- `Greedy(min_matching)`
+- `Greedy(combined)`
+- `A*(static_deadlock)`
+- `A*(min_matching)`
+- `A*(combined)`
+
+Las corridas crudas guardan una fila por experimento con:
+
+- archivo de niveles
+- nombre e indice de nivel
+- `run_id`
+- `iteration`
+- `seed` y `run_seed`
+- algoritmo
+- heuristica
+- categoria
+- tiempo
+- costo
+- nodos expandidos
+- `frontier_count`
+- resultado
+
+### Ejecutar benchmarks
+
+Con el set por defecto de 4 niveles:
 
 ```bash
 python3 -m src.main
 ```
 
-Ejemplo de output:
+Con un archivo propio y parametros explicitos:
 
-```
-============================================================
-Nivel 2 — 3 cajas open (cajas=3, goals=3)
-============================================================
-  BFS     | h=ninguna          | Success | costo=   15 | nodos_exp= 35781 | frontera=17412 |   409.0ms
-  DFS     | h=ninguna          | Success | costo= 1489 | nodos_exp= 89031 | frontera= 1446 |   800.0ms
-  GREEDY  | h=static_deadlock  | Success | costo=  329 | nodos_exp=  3354 | frontera= 2690 |    37.0ms
-  A_STAR  | h=static_deadlock  | Success | costo=   15 | nodos_exp=  4133 | frontera= 2176 |    52.0ms
-  GREEDY  | h=min_matching     | Success | costo=   17 | nodos_exp=    37 | frontera=   34 |     1.0ms
-  A_STAR  | h=min_matching     | Success | costo=   15 | nodos_exp=   979 | frontera=  718 |    35.0ms
-  A_STAR  | h=combined         | Success | costo=   15 | nodos_exp=   979 | frontera=  718 |    36.0ms
+```bash
+python3 -m src.main \
+  --levels-file levels/default_levels.txt \
+  --iterations 10 \
+  --seed 42 \
+  --output-dir results
 ```
 
-### Demo de deadlocks estaticos
+Filtrando niveles por indice o por nombre:
 
-Muestra un nivel de prueba y su analisis de deadlocks, indicando que posiciones son alcanzables (`r`) y cuales son prohibidas (`x`):
+```bash
+python3 -m src.main --levels 1 3
+python3 -m src.main --levels "Nivel 2 - Dos cajas"
+```
+
+### Salida generada
+
+Cada corrida crea esta estructura:
+
+```text
+results/
+  raw/
+    benchmark_runs.csv
+    benchmark_runs.parquet        # Solo si hay motor parquet disponible
+  summary/
+    benchmark_summary.csv
+    benchmark_summary.parquet     # Solo si hay motor parquet disponible
+  plots/
+    optimal_*.png
+    non_optimal_*.png
+    bfs_vs_dfs_*.png
+    greedy_vs_astar_*.png
+    cost_by_level_errorbars.png
+    boxplot_*.png
+  conclusions/
+    plot_conclusions.md
+```
+
+Los plots cubren:
+
+- tiempo promedio, frontera y nodos expandidos para algoritmos optimos
+- tiempo promedio, frontera y nodos expandidos para algoritmos no optimos
+- comparativa `BFS vs DFS` con barras de error
+- comparativa `Greedy vs A*` con barras de error
+- costo promedio por nivel con barras de error
+- box plots de tiempo, frontera, nodos expandidos y costo
+
+## Formato del archivo de niveles
+
+El runner acepta cualquier coleccion de niveles en un archivo de texto:
+
+- cada nivel es un bloque ASCII
+- los bloques se separan con una linea vacia doble
+- opcionalmente, el bloque puede empezar con `; nombre_del_nivel`
+- si no hay titulo, se usa `Nivel N`
+
+Ejemplo:
+
+```text
+; Nivel 1
+######
+#    #
+# P$.#
+#    #
+######
+
+
+; Nivel 2
+#######
+#     #
+# $.  #
+# .$  #
+#  P  #
+#######
+```
+
+Simbolos admitidos:
+
+```text
+#  = pared
+P  = jugador
+$  = caja
+.  = goal
+*  = caja sobre goal
++  = jugador sobre goal
+  = piso transitable
+```
+
+El parser valida que cada nivel tenga exactamente un jugador, al menos una caja, al menos un goal y la misma cantidad de cajas y goals.
+
+## Demo de deadlocks estaticos
 
 ```bash
 python3 -m src.demo_static_deadlocks
 ```
 
-### Correr tests
+## Tests
 
-Todos los tests (15 en total):
+Todos los tests:
 
 ```bash
 python3 -m pytest tests/ -v
 ```
 
-Solo tests de deadlocks:
+Solo parser y runner:
 
 ```bash
-python3 -m pytest tests/test_static_deadlocks.py -v
-```
-
-Solo tests de minimum matching:
-
-```bash
-python3 -m pytest tests/test_min_matching.py -v
+python3 -m pytest tests/test_level_io.py tests/test_experiment_runner.py -v
 ```
 
 ## Algoritmos de busqueda
@@ -103,21 +207,21 @@ python3 -m pytest tests/test_min_matching.py -v
 
 ### `static_deadlock`
 
-Detecta posiciones donde una caja **nunca puede llegar a ningun goal**. Usa un BFS inverso desde los goals para encontrar posiciones alcanzables. Todo lo demas es prohibido. Retorna infinito si alguna caja esta en posicion prohibida, 0 en caso contrario.
+Detecta posiciones donde una caja nunca puede llegar a ningun goal. Si alguna caja esta en una posicion prohibida, retorna infinito; en caso contrario, retorna 0.
 
 ### `min_matching`
 
-Calcula la **asignacion optima de cajas a goals** minimizando la suma total de distancias Manhattan. Usa el algoritmo Hungaro (`scipy.optimize.linear_sum_assignment`, O(n^3)). Admisible porque la distancia Manhattan es un lower bound del costo real de empujar una caja.
+Calcula la asignacion optima de cajas a goals minimizando la suma de distancias Manhattan mediante `scipy.optimize.linear_sum_assignment`.
 
 ### `combined`
 
-Combina ambas heuristicas: `max(min_matching, static_deadlock)`. El maximo de dos heuristicas admisibles es siempre admisible.
+Combina `min_matching` y `static_deadlock` con `max(...)`, preservando admisibilidad.
 
 ## Uso programatico
 
 ```python
-from src.demo_static_deadlocks import build_state_from_ascii
 from src.engine.search import search
+from src.level_io import build_state_from_ascii
 
 nivel = """
     #######
@@ -129,29 +233,16 @@ nivel = """
     #######
 """
 
-state = build_state_from_ascii(nivel)
-
-# Busqueda con A* y minimum matching
+state = build_state_from_ascii(nivel, level_name="Demo")
 resultado = search(state, method="a_star", heuristic="min_matching")
 
-print(resultado["result"])          # "Success" o "Failure"
-print(resultado["cost"])            # Costo de la solucion
-print(resultado["nodes_expanded"])  # Nodos expandidos
-print(resultado["frontier_count"])  # Nodos en frontera al terminar
-print(resultado["path"])            # Lista de acciones: ["UP", "RIGHT", ...]
+print(resultado["result"])
+print(resultado["cost"])
+print(resultado["nodes_expanded"])
+print(resultado["frontier_count"])
+print(resultado["path"])
 ```
 
-Metodos disponibles: `"bfs"`, `"dfs"`, `"greedy"`, `"a_star"` (o `"astar"`).
+Metodos disponibles: `"bfs"`, `"dfs"`, `"greedy"`, `"a_star"` y alias `"astar"`.
 
-Heuristicas disponibles: `"static_deadlock"`, `"min_matching"`, `"combined"`, `"zero"`.
-
-### Formato de nivel
-
-```
-#  = pared
-P  = jugador
-$  = caja
-.  = goal
-*  = caja sobre goal
-+  = jugador sobre goal
-```
+Heuristicas disponibles: `"static_deadlock"`, `"min_matching"`, `"combined"` y `"zero"`.
