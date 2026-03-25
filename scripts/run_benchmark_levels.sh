@@ -7,8 +7,4 @@ else
   PYTHON_BIN="python3"
 fi
 
-"$PYTHON_BIN" -u -m src.main \
-  --levels-file levels/benchmark_levels.txt \
-  --iterations 1 \
-  --seed 42 \
-  --output-dir results_benchmark_levels
+exec "$PYTHON_BIN" -u scripts/run_benchmark_levels.py "$@"
