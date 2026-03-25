@@ -1,3 +1,19 @@
+# Definicion del costo
+En este repo, cost mide el **costo acumulado de la solución en cantidad de acciones**, o sea la **longitud del plan** desde el estado inicial hasta la meta.
+
+La evidencia está acá:
+
+- En search.py, cada sucesor suma 1 al costo acumulado: src/engine/search.py (lines 135-143)
+- Cuando encuentra la meta, devuelve cost: node.g: src/engine/search.py (lines 116-123)
+- En el resumen, ese cost se promedia como cost_mean: src/main.py (lines 327-340)
+
+Lo importante es esto:
+
+- Cada paso del jugador en una dirección válida cuenta como 1
+- Si ese paso empuja una caja, **también cuenta como 1**, no como un costo separado
+- No está midiendo tiempo, ni cantidad de pushes por separado, ni distancia geométrica
+
+Entonces, en la práctica, cost = **número de movimientos/acciones del plan**.
 # 1. BFS (Breadth First Search)
 
 ## ¿Cuándo es óptimo?
