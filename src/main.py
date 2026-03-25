@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import random
 import time
-from dataclasses import dataclass
 from pathlib import Path
 
 import matplotlib
@@ -17,6 +16,7 @@ import seaborn as sns
 
 from src.engine.search import search
 from src.level_io import LevelDefinition, load_levels_from_file
+from src.solver_methods import METHOD_GRID
 
 DEFAULT_LEVELS_FILE = Path(__file__).resolve().parents[1] / "levels" / "default_levels.txt"
 DEFAULT_OUTPUT_DIR = Path("results")
@@ -52,65 +52,6 @@ METRIC_METADATA = {
         "short_label": "costo",
     },
 }
-
-
-@dataclass(frozen=True, slots=True)
-class ExperimentMethod:
-    algorithm: str
-    heuristic: str
-    category: str
-    solver_label: str
-    base_heuristic: str | None = None
-
-    @property
-    def algorithm_label(self) -> str:
-        return ALGORITHM_LABELS[self.algorithm]
-
-
-METHOD_GRID: tuple[ExperimentMethod, ...] = (
-    ExperimentMethod("bfs", "none", "optimal", "BFS"),
-    ExperimentMethod("dfs", "none", "non_optimal", "DFS"),
-    ExperimentMethod(
-        "greedy",
-        "static_deadlock",
-        "non_optimal",
-        "Greedy (static_deadlock)",
-    ),
-    ExperimentMethod(
-        "greedy",
-        "min_matching",
-        "non_optimal",
-        "Greedy (min_matching)",
-    ),
-    ExperimentMethod(
-        "greedy",
-        "combined",
-        "non_optimal",
-        "Greedy (combined)",
-        base_heuristic="min_matching",
-    ),
-    ExperimentMethod(
-        "a_star",
-        "static_deadlock",
-        "optimal",
-        "A* (static_deadlock)",
-    ),
-    ExperimentMethod(
-        "a_star",
-        "min_matching",
-        "optimal",
-        "A* (min_matching)",
-    ),
-    ExperimentMethod(
-        "a_star",
-        "combined",
-        "optimal",
-        "A* (combined)",
-        base_heuristic="min_matching",
-    ),
-)
-
-
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run reproducible Sokoban benchmarks from an ASCII levels file."

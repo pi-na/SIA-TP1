@@ -6,6 +6,13 @@ from src.heuristics.static_deadlocks import (
 )
 from src.model.board_layout import BoardLayout, Position
 
+MOVE_DELTAS: dict[str, Position] = {
+    "UP": (-1, 0),
+    "DOWN": (1, 0),
+    "LEFT": (0, -1),
+    "RIGHT": (0, 1),
+}
+
 
 class SokobanState:
     def __init__(
@@ -49,6 +56,49 @@ class SokobanState:
             and self.get_static_deadlock_info().is_forbidden(box_position)
         )
 
+    def move(self, action: str, allow_deadlocks: bool = True) -> "SokobanState" | None:
+        normalized_action = action.upper()
+        if normalized_action not in MOVE_DELTAS:
+            raise ValueError(f"Unknown move action: {action}")
+
+        dr, dc = MOVE_DELTAS[normalized_action]
+        nr, nc = self.player[0] + dr, self.player[1] + dc
+        new_player = (nr, nc)
+        layout = self.get_board_layout()
+
+        if not layout.is_floor(new_player):
+            return None
+
+        if new_player in self.boxes:
+            box_nr, box_nc = nr + dr, nc + dc
+            new_box_pos = (box_nr, box_nc)
+
+            if not layout.is_floor(new_box_pos):
+                return None
+            if new_box_pos in self.boxes:
+                return None
+            if not allow_deadlocks and self.moved_box_into_forbidden_tile(new_box_pos):
+                return None
+
+            new_boxes = set(self.boxes)
+            new_boxes.remove(new_player)
+            new_boxes.add(new_box_pos)
+            return SokobanState(
+                new_player,
+                new_boxes,
+                self.goals,
+                self.walls,
+                board_layout=layout,
+            )
+
+        return SokobanState(
+            new_player,
+            self.boxes,
+            self.goals,
+            self.walls,
+            board_layout=layout,
+        )
+
     def render(self):
         layout = self.get_board_layout()
         board_str = ""
@@ -81,55 +131,10 @@ class SokobanState:
 
     def get_successors(self, allow_deadlocks=True):
         successors = []
-        moves = {"UP": (-1, 0), "DOWN": (1, 0), "LEFT": (0, -1), "RIGHT": (0, 1)}
-        layout = self.get_board_layout()
-
-        for name, (dr, dc) in moves.items():
-            nr, nc = self.player[0] + dr, self.player[1] + dc
-            new_player = (nr, nc)
-
-            if not layout.is_floor(new_player):
-                continue
-
-            if new_player in self.boxes:
-                box_nr, box_nc = nr + dr, nc + dc
-                new_box_pos = (box_nr, box_nc)
-
-                if not layout.is_floor(new_box_pos):
-                    continue
-                if new_box_pos in self.boxes:
-                    continue
-                if not allow_deadlocks and self.moved_box_into_forbidden_tile(new_box_pos):
-                    continue
-
-                new_boxes = set(self.boxes)
-                new_boxes.remove(new_player)
-                new_boxes.add(new_box_pos)
-                successors.append(
-                    (
-                        name,
-                        SokobanState(
-                            new_player,
-                            new_boxes,
-                            self.goals,
-                            self.walls,
-                            board_layout=layout,
-                        ),
-                    )
-                )
-            else:
-                successors.append(
-                    (
-                        name,
-                        SokobanState(
-                            new_player,
-                            self.boxes,
-                            self.goals,
-                            self.walls,
-                            board_layout=layout,
-                        ),
-                    )
-                )
+        for action in MOVE_DELTAS:
+            next_state = self.move(action, allow_deadlocks=allow_deadlocks)
+            if next_state is not None:
+                successors.append((action, next_state))
         return successors
 
     def __hash__(self):

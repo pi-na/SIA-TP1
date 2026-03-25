@@ -10,12 +10,13 @@ Trabajo Practico 1 de Sistemas de Inteligencia Artificial (ITBA). El proyecto im
 - pandas
 - matplotlib
 - seaborn
+- pygame
 - pytest
 
 ## Instalacion
 
 ```bash
-pip install scipy numpy pandas matplotlib seaborn pytest
+pip install -r requirements.txt
 ```
 
 ## Estructura del proyecto
@@ -81,6 +82,32 @@ Con el set por defecto de 4 niveles:
 ```bash
 python3 -m src.main
 ```
+
+### Jugar en Pygame
+
+La nueva interfaz interactiva permite jugar, comparar algoritmos y reproducir la solucion encontrada paso a paso:
+
+```bash
+python3 -m src.pygame_app
+```
+
+Tambien acepta una coleccion inicial distinta:
+
+```bash
+python3 -m src.pygame_app --levels-file levels/original_levels.txt
+```
+
+Controles principales:
+
+- Flechas: mover al jugador
+- `Backspace`: deshacer en modo manual
+- `R`: reiniciar el nivel actual
+- `C`: lanzar la comparacion
+- `Space`: pausar o reanudar el replay
+- `Left` y `Right`: avanzar o retroceder pasos en el replay
+- `Up` y `Down`: cambiar la velocidad del replay
+
+En el panel izquierdo se pueden activar o desactivar combinaciones de algoritmo + heuristica y elegir otro archivo ASCII escribiendo su ruta en la barra superior.
 
 Con un archivo propio y parametros explicitos:
 
