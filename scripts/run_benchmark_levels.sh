@@ -8,8 +8,7 @@ else
 fi
 
 "$PYTHON_BIN" -u -m src.main \
-  --levels-file levels/original_levels.txt \
-  --levels 1 \
+  --levels-file levels/benchmark_levels.txt \
   --iterations 1 \
   --seed 42 \
-  --output-dir results_original
+  --output-dir results_benchmark_levels
