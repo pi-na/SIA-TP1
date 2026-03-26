@@ -37,12 +37,20 @@ src/
   demo_static_deadlocks.py # Demo de visualizacion de deadlocks
   main.py                  # Runner experimental generico
 tests/
+  conftest.py              # Helper compartido build_state
+  test_search_astar.py     # Tests de A* con reapertura de nodos
+  test_search_algorithms.py # Tests de DFS, Greedy, roundtrip, estado resuelto
   test_static_deadlocks.py
   test_min_matching.py
   test_level_io.py
+  test_deadlock_policy.py
+  test_benchmark_script.py
   test_experiment_runner.py
+scripts/
+  run_benchmark_levels.py           # Runner configurable con grid custom
+  run_selected_advanced_benchmarks.py # Benchmarks sobre niveles avanzados
+  generate_bar_comparisons.py       # Genera suites de graficos de barras
 Informe/
-Catedra/
 ```
 
 ## Runner experimental
@@ -73,6 +81,9 @@ Las corridas crudas guardan una fila por experimento con:
 - nodos expandidos
 - `frontier_count`
 - resultado
+- `stale_skipped` (entradas obsoletas en el heap de A*)
+- `reopened_states` (nodos cerrados reabiertos por A*)
+- `heuristic_cache_hits` (cache hits de la heuristica)
 
 La poda de deadlocks de sucesores se puede controlar desde CLI:
 
@@ -189,16 +200,20 @@ python3 -m src.demo_static_deadlocks
 
 ## Tests
 
-Todos los tests:
+Todos los tests (36 tests):
 
 ```bash
 python3 -m pytest tests/ -v
 ```
 
-Solo parser y runner:
+Por modulo:
 
 ```bash
-python3 -m pytest tests/test_level_io.py tests/test_experiment_runner.py -v
+python3 -m pytest tests/test_search_astar.py -v        # A* con reapertura
+python3 -m pytest tests/test_search_algorithms.py -v    # DFS, Greedy, roundtrip
+python3 -m pytest tests/test_min_matching.py -v         # Hungaro y admisibilidad
+python3 -m pytest tests/test_static_deadlocks.py -v     # Deadlocks estaticos
+python3 -m pytest tests/test_level_io.py -v             # Parser de niveles
 ```
 
 ## Algoritmos de busqueda
@@ -208,7 +223,7 @@ python3 -m pytest tests/test_level_io.py tests/test_experiment_runner.py -v
 | BFS | Desinformado | Cola FIFO | Si | Si |
 | DFS | Desinformado | Pila LIFO | No | No |
 | Greedy | Informado | Min-heap por h | No | No |
-| A* | Informado | Min-heap por g+h | Si (con h admisible) | Si |
+| A* | Informado | Min-heap por g+h | Si (con h admisible, reabre nodos) | Si |
 
 ## Heuristicas
 
