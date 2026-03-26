@@ -295,6 +295,9 @@ def run_experiments(
                         "nodes_expanded": result.get("nodes_expanded", 0),
                         "frontier_count": result.get("frontier_count", 0),
                         "result": result.get("result", "Failure"),
+                        "stale_skipped": result.get("stale_skipped", 0),
+                        "reopened_states": result.get("reopened_states", 0),
+                        "heuristic_cache_hits": result.get("heuristic_cache_hits", 0),
                     }
                 )
 
@@ -346,6 +349,12 @@ def build_summary(raw_df: pd.DataFrame) -> pd.DataFrame:
             frontier_count_std=("frontier_count", _std),
             frontier_count_min=("frontier_count", "min"),
             frontier_count_max=("frontier_count", "max"),
+            stale_skipped_mean=("stale_skipped", "mean"),
+            stale_skipped_std=("stale_skipped", _std),
+            reopened_states_mean=("reopened_states", "mean"),
+            reopened_states_std=("reopened_states", _std),
+            heuristic_cache_hits_mean=("heuristic_cache_hits", "mean"),
+            heuristic_cache_hits_std=("heuristic_cache_hits", _std),
         )
         .reset_index()
         .sort_values(
