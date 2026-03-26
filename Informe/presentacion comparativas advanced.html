@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Presentacion - Comparativas Sokoban Advanced</title>
+  <style>
+    :root {
+      --bg: #f3eadc;
+      --panel: rgba(255, 250, 243, 0.88);
+      --panel-strong: rgba(255, 248, 239, 0.97);
+      --ink: #231a16;
+      --muted: #665447;
+      --accent: #c75a1b;
+      --accent-2: #126e68;
+      --accent-3: #a33834;
+      --line: rgba(47, 34, 26, 0.12);
+      --shadow: 0 24px 60px rgba(36, 26, 20, 0.14);
+      --radius: 26px;
+      --radius-sm: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(199, 90, 27, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(18, 110, 104, 0.18), transparent 24%),
+        linear-gradient(145deg, #fbf4e8 0%, #efe2cf 55%, #ead9c1 100%);
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(transparent 96%, rgba(35, 26, 22, 0.025) 100%),
+        linear-gradient(90deg, transparent 96%, rgba(35, 26, 22, 0.025) 100%);
+      background-size: 24px 24px;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .deck {
+      height: 100%;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 42px 50px 34px;
+      position: relative;
+    }
+
+    .slide.active {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 18px;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(37, 28, 22, 0.08);
+      border-radius: 30px;
+      pointer-events: none;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.03;
+      font-family: "Baskerville", "Iowan Old Style", "Palatino Linotype", serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      max-width: 11ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 3vw, 3.1rem);
+      max-width: 16ch;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 1rem;
+    }
+
+    .subtitle {
+      max-width: 80ch;
+      font-size: 1.04rem;
+    }
+
+    .content {
+      min-height: 0;
+      display: grid;
+      gap: 18px;
+    }
+
+    .content.two-col {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .content.split-hero {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: stretch;
+    }
+
+    .content.centered {
+      align-items: center;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      min-width: 0;
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+    }
+
+    .panel.strong {
+      background: var(--panel-strong);
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+      padding: 24px 26px;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      max-width: 56ch;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(35, 26, 22, 0.06);
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 0.93rem;
+    }
+
+    .chip.accent {
+      background: rgba(199, 90, 27, 0.12);
+      color: #8b3f12;
+    }
+
+    .chip.teal {
+      background: rgba(18, 110, 104, 0.12);
+      color: #0b5a55;
+    }
+
+    .stat-grid,
+    .mini-grid,
+    .decision-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stat-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mini-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .decision-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(35, 26, 22, 0.09);
+      display: grid;
+      gap: 6px;
+    }
+
+    .card .eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+    }
+
+    .card .value {
+      font-size: 1.55rem;
+      color: var(--ink);
+      font-weight: 800;
+      line-height: 1.05;
+    }
+
+    .card .detail {
+      font-size: 0.94rem;
+      color: var(--muted);
+    }
+
+    .bullet-list,
+    .takeaways {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .bullet-list li,
+    .takeaways li {
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px solid rgba(35, 26, 22, 0.08);
+      border-radius: 18px;
+      padding: 13px 14px;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    .bullet-list strong,
+    .takeaways strong {
+      color: var(--accent-3);
+    }
+
+    .chart-grid {
+      display: grid;
+      gap: 14px;
+      min-height: 0;
+    }
+
+    .chart-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .chart-grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .chart-grid.four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .chart-card {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .chart-card h3 {
+      font-size: 1rem;
+      line-height: 1.15;
+      color: var(--ink);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .chart-card p {
+      font-size: 0.92rem;
+    }
+
+    figure {
+      margin: 0;
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    figure img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: contain;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid rgba(35, 26, 22, 0.08);
+      padding: 8px;
+    }
+
+    figcaption {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .summary-strip {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .summary-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: rgba(18, 110, 104, 0.12);
+      color: #0f5e58;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .footer strong {
+      color: var(--ink);
+    }
+
+    .nav {
+      position: fixed;
+      right: 22px;
+      bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 20;
+    }
+
+    .nav button {
+      border: none;
+      border-radius: 999px;
+      width: 44px;
+      height: 44px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      background: rgba(35, 26, 22, 0.88);
+      color: #fffaf3;
+      box-shadow: 0 18px 40px rgba(35, 26, 22, 0.16);
+    }
+
+    .progress {
+      position: fixed;
+      left: 22px;
+      bottom: 22px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .progress-bar {
+      width: 220px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(35, 26, 22, 0.12);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: inherit;
+      transition: width 0.25s ease;
+    }
+
+    .slide-number {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(35, 26, 22, 0.08);
+      vertical-align: top;
+    }
+
+    .matrix th {
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .matrix td strong {
+      color: var(--ink);
+    }
+
+    .accent-text {
+      color: var(--accent-3);
+      font-weight: 700;
+    }
+
+    .small {
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1200px) {
+      .chart-grid.three,
+      .chart-grid.four,
+      .content.two-col,
+      .content.split-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-grid.two {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid,
+      .mini-grid,
+      .decision-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      html,
+      body {
+        overflow: visible;
+        height: auto;
+        background: white;
+      }
+
+      body::before,
+      .nav,
+      .progress {
+        display: none;
+      }
+
+      .slide,
+      .slide.active {
+        display: grid;
+        min-height: 100vh;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide active">
+      <div class="kicker">Sokoban avanzado</div>
+      <h1>Comparativas experimentales para la presentacion final</h1>
+      <p class="subtitle">
+        Reorganizacion visual de <strong>"Informe version 3 advanced"</strong> con foco en la historia que mejor se puede contar en vivo:
+        optimalidad, costo experimental de las heuristicas y efecto estructural de la poda de deadlocks.
+      </p>
+      <div class="content split-hero centered">
+        <div class="panel strong hero-panel">
+          <p class="lead">
+            La presentacion usa los resultados del benchmark avanzado sobre cinco niveles y combina diapositivas de lectura puntual con
+            diapositivas comparativas donde varios graficos conviven para sostener una misma inferencia.
+          </p>
+          <div class="chips">
+            <span class="chip accent">32 graficos reordenados</span>
+            <span class="chip teal">5 niveles avanzados</span>
+            <span class="chip">BFS, DFS, Greedy y A*</span>
+            <span class="chip">allow vs prune</span>
+          </div>
+          <div class="summary-strip">
+            <span class="summary-pill">A* (combined) = mejor optimo</span>
+            <span class="summary-pill">Greedy (combined) = mejor no optimo</span>
+            <span class="summary-pill">prune rescata a DFS</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="stat-grid">
+            <div class="card">
+              <div class="eyebrow">Comparativa central</div>
+              <div class="value">BFS vs A*</div>
+              <div class="detail">Garantia de optimalidad contra eficiencia de exploracion.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Comparativa central</div>
+              <div class="value">Greedy vs A*</div>
+              <div class="detail">Costo experimental de exigir optimalidad.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Hallazgo estructural</div>
+              <div class="value">Poda</div>
+              <div class="detail">Mejora fuerte en BFS y transformacion radical en DFS.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Lectura metodologica</div>
+              <div class="value">Frontera final</div>
+              <div class="detail">No es memoria pico. Siempre debe leerse junto con nodos y tiempo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Objetivo:</strong> transformar el informe en una secuencia de diapositivas lista para exponer.</span>
+        <span>Usar flechas, espacio, Home/End o F para pantalla completa.</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">1. Benchmark</div>
+      <h2>Como leer las corridas avanzadas</h2>
+      <p class="subtitle">
+        Antes de entrar a los algoritmos, conviene fijar las reglas del juego: mismos cinco niveles, mismas iteraciones y cuatro metricas que cuentan historias distintas.
+      </p>
+      <div class="content two-col">
+        <div class="panel strong">
+          <div class="mini-grid">
+            <div class="card">
+              <div class="eyebrow">Nivel 1</div>
+              <div class="value">Puentes de dos cajas</div>
+              <div class="detail">Chequeo inicial con estructura simple.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Nivel 2</div>
+              <div class="value">Galeria central</div>
+              <div class="detail">Empieza a penalizar fuerte las malas ramas.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Nivel 3</div>
+              <div class="value">Triangulo abierto</div>
+              <div class="detail">Ideal para mostrar valor heuristico.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Nivel 4</div>
+              <div class="value">Pasillo triple</div>
+              <div class="detail">Escenario donde DFS puede parecer rapido y aun asi ser muy malo.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Nivel 5</div>
+              <div class="value">Cruce angosto</div>
+              <div class="detail">Caso mas exigente y mas interesante del set.</div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Corridas</div>
+              <div class="value">10 iteraciones</div>
+              <div class="detail">`success_rate = 1.0` en todas las suites comparadas.</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <ul class="bullet-list">
+            <li><strong>cost_mean</strong>: calidad de la solucion. Si importa optimalidad, esta es la metrica reina.</li>
+            <li><strong>nodes_expanded_mean</strong>: trabajo real de busqueda. Es la mejor proxy de eficiencia algoritimica.</li>
+            <li><strong>frontier_count_mean</strong>: tamano de la frontera al terminar. No debe leerse como memoria pico.</li>
+            <li><strong>time_seconds_mean</strong>: mezcla esfuerzo de busqueda con overhead de la heuristica.</li>
+            <li><strong>Lectura transversal</strong>: las corridas son casi deterministas en costo, nodos y frontera; el ruido aparece sobre todo en tiempo.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Clave metodologica:</strong> un algoritmo puede parecer mejor en una metrica aislada y seguir siendo peor globalmente.</span>
+        <span>2 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">2. Resumen ejecutivo</div>
+      <h2>Las cinco conclusiones que sostienen toda la presentacion</h2>
+      <p class="subtitle">
+        Esta slide resume la historia completa. El resto de la presentacion existe para justificar experimentalmente estas cinco afirmaciones.
+      </p>
+      <div class="content">
+        <div class="panel strong">
+          <ul class="takeaways">
+            <li><strong>A* (combined)</strong> es la mejor variante optima: mismo costo que BFS con <span class="accent-text">90.7% menos nodos</span> y <span class="accent-text">66.5% menos tiempo</span>.</li>
+            <li><strong>Greedy (combined)</strong> es la mejor variante practica no optima: muchisimo mas rapida y barata en exploracion, aunque paga suboptimalidad moderada.</li>
+            <li><strong>static_deadlock</strong> aporta mas como poda que como ranking heuristico: varias veces empata a algoritmos podados, pero rara vez domina integralmente.</li>
+            <li><strong>prune</strong> mejora mucho a BFS y rescata a DFS: en DFS reduce <span class="accent-text">93.5% de nodos</span>, aunque no corrige su mal costo de solucion.</li>
+            <li><strong>La metrica de frontera final</strong> es util, pero nunca puede leerse sola. Los mejores relatos salen cuando se cruza con costo, nodos y tiempo.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Mensaje de apertura sugerido:</strong> la mejor performance surge de combinar estrategia, heuristica y poda estructural.</span>
+        <span>3 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">3. A* heuristics</div>
+      <h2>Primero: que tan buenas son realmente las heuristicas de A*</h2>
+      <p class="subtitle">
+        Los cuatro graficos juntos muestran la foto completa: mismo costo optimo, pero costos de busqueda y de computo muy distintos.
+      </p>
+      <div class="content two-col">
+        <div class="chart-grid four">
+          <div class="panel chart-card">
+            <h3>Costo global</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/a_star_heuristics_global_cost_global.png" alt="Costo global de heuristicas de A*" />
+              <figcaption>Las tres variantes empatan en costo: la discusion real no es de calidad sino de eficiencia.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Frontera global</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/a_star_heuristics_global_frontier_count_global.png" alt="Frontera global de heuristicas de A*" />
+              <figcaption>`A* (combined)` domina, salvo una excepcion puntual en `Cruce angosto`.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos globales</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/a_star_heuristics_global_nodes_expanded_global.png" alt="Nodos globales de heuristicas de A*" />
+              <figcaption>`combined` combina poda con ranking util; `static_deadlock` no ordena bien.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Tiempo global</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/a_star_heuristics_global_time_seconds_global.png" alt="Tiempo global de heuristicas de A*" />
+              <figcaption>`min_matching` mantiene optimalidad pero paga demasiado overhead.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="panel strong">
+          <ul class="bullet-list">
+            <li><strong>`A* (combined)`</strong> es la mejor heuristica integral del trabajo.</li>
+            <li>Contra `A* (static_deadlock)` reduce <strong>64.4%</strong> los nodos y <strong>72.3%</strong> la frontera final.</li>
+            <li>Contra `A* (min_matching)` reduce <strong>75.1%</strong> los nodos y <strong>74.1%</strong> el tiempo.</li>
+            <li><strong>Lectura fina:</strong> en `Nivel 1` y `Nivel 5`, `static_deadlock` puede ganar en tiempo, lo que prueba que el overhead heuristico importa.</li>
+            <li><strong>Concluson presentable:</strong> cuando el costo queda empatado, la mejor heuristica es la que reduce exploracion sin inflar el tiempo.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Slide clave:</strong> fija el rol de `combined`, `min_matching` y `static_deadlock` antes de pasar a las familias de algoritmos.</span>
+        <span>4 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">4. BFS vs A*</div>
+      <h2>Los optimos: misma solucion, costo de busqueda muy distinto</h2>
+      <p class="subtitle">
+        Esta comparacion conviene abrirla con costo y nodos: primero mostrar que el resultado final es el mismo y despues exhibir el precio que paga cada estrategia.
+      </p>
+      <div class="content two-col">
+        <div class="chart-grid two">
+          <div class="panel chart-card">
+            <h3>Mismo costo por nivel</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/bfs_vs_a_star_allow_cost_by_level.png" alt="Costo BFS vs A* allow" />
+              <figcaption>`BFS` y las tres variantes de `A*` empatan en los cinco niveles avanzados.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>La diferencia real: nodos</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/bfs_vs_a_star_allow_nodes_expanded_by_level.png" alt="Nodos BFS vs A* allow" />
+              <figcaption>`A* (combined)` gana siempre; `A* (static_deadlock)` mejora a `BFS`, pero sin la misma consistencia.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="panel strong">
+          <ul class="bullet-list">
+            <li><strong>Idea central:</strong> la comparativa no es "quien resuelve mejor", sino "quien paga menos para resolver igual de bien".</li>
+            <li><strong>`A* (combined)` vs `BFS`</strong>: <span class="accent-text">90.7% menos nodos</span>, <span class="accent-text">95.0% menos frontera</span> y <span class="accent-text">66.5% menos tiempo</span>.</li>
+            <li><strong>Primer escalon de mejora:</strong> pasar de desinformado a informado.</li>
+            <li><strong>Segundo escalon:</strong> dentro de `A*`, usar una heuristica compuesta y no una senal parcial.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Mensaje oral sugerido:</strong> `A* (combined)` conserva la garantia de `BFS`, pero a una fraccion del costo de busqueda.</span>
+        <span>5 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">4. BFS vs A*</div>
+      <h2>Deep dive optimo: frontera, nodos y tiempo nivel por nivel</h2>
+      <p class="subtitle">
+        La lectura conjunta evita una conclusion simplista: `combined` es el ganador integral, aunque no siempre sea el mas rapido en cada nivel aislado.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Frontera final</h3>
+            <figure>
+              <img src="../results_optimal_allow_deadlocks_advanced/plots/optimal_frontier_count_by_level.png" alt="Frontera en optimos" />
+              <figcaption>`A* (combined)` gana 4 de 5 niveles; la excepcion es `Cruce angosto` con `static_deadlock`.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos expandidos</h3>
+            <figure>
+              <img src="../results_optimal_allow_deadlocks_advanced/plots/optimal_nodes_expanded_by_level.png" alt="Nodos en optimos" />
+              <figcaption>`A* (combined)` gana los cinco niveles: esta es la figura mas alineada con la teoria.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Tiempo</h3>
+            <figure>
+              <img src="../results_optimal_allow_deadlocks_advanced/plots/optimal_time_by_level.png" alt="Tiempo en optimos" />
+              <figcaption>`static_deadlock` puede ganar en tiempo local, pero `combined` domina el promedio global.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Inferencia:</strong> el `Nivel 5` obliga a cruzar metricas; la frontera sola sobrevalora a `static_deadlock`.</span>
+        <span>6 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">5. BFS con poda</div>
+      <h2>Que cambia cuando a BFS solo se le agrega prune</h2>
+      <p class="subtitle">
+        La poda no vuelve a `BFS` mejor que `A* (combined)`, pero si lo saca del lugar de baseline ingenuo y lo acerca a heuristicas mas flojas.
+      </p>
+      <div class="content two-col">
+        <div class="chart-grid two">
+          <div class="panel chart-card">
+            <h3>Frontera mixta: BFS (prune) vs A* (allow)</h3>
+            <figure>
+              <img src="../results_optimal_bfs_prune_deadlocks_advanced/plots/optimal_frontier_count_by_level.png" alt="Frontera BFS prune vs A*" />
+              <figcaption>`BFS (prune)` deja de verse lejano frente a `A* (static_deadlock)` y `A* (min_matching)`.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos: donde pasa a competir</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/bfs_vs_a_star_prune_nodes_expanded_by_level.png" alt="Nodos BFS prune vs A*" />
+              <figcaption>`BFS (prune)` empata exactamente a `A* (static_deadlock, allow)` en los cinco niveles.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="panel strong">
+          <ul class="bullet-list">
+            <li><strong>Hallazgo mas fuerte:</strong> una buena poda puede valer mas que una heuristica admisible pero mal alineada.</li>
+            <li><strong>`BFS (prune)`</strong> incluso supera a `A* (min_matching, allow)` en `Cruce angosto`.</li>
+            <li><strong>Conclusion conceptual:</strong> podar y ordenar no son lo mismo; ambas cosas aportan y se pueden separar experimentalmente.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Mensaje oral sugerido:</strong> primero conviene limpiar el espacio de estados; despues conviene guiar bien la busqueda.</span>
+        <span>7 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">5. BFS con poda</div>
+      <h2>El efecto de prune sobre BFS es estructural, no marginal</h2>
+      <p class="subtitle">
+        Estas dos figuras muestran una mejora causal limpia: el costo de solucion se preserva y lo que cae es la explosion combinatoria.
+      </p>
+      <div class="content two-col">
+        <div class="chart-grid two">
+          <div class="panel chart-card">
+            <h3>Frontera final: BFS allow vs BFS prune</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/bfs_frontier_count_prune_vs_allow_by_level.png" alt="Frontera BFS allow vs prune" />
+              <figcaption>La frontera media baja de `14258.4` a `3659.6`: <strong>74.3% menos</strong>.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos: BFS allow vs BFS prune</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/bfs_nodes_expanded_prune_vs_allow_by_level.png" alt="Nodos BFS allow vs prune" />
+              <figcaption>Los nodos medios bajan de `61542.6` a `16065.8`: <strong>73.9% menos</strong>.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="panel">
+          <ul class="bullet-list">
+            <li><strong>`Cruce angosto`</strong> es el mejor ejemplo: la poda reduce <strong>91.1%</strong> la frontera y <strong>82.7%</strong> los nodos.</li>
+            <li>En BFS, podar deadlocks evita generar capas enteras de estados muertos.</li>
+            <li>Si hubiera que justificar una sola optimizacion de espacio de estados para BFS, estas dos figuras alcanzan.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Interpretacion:</strong> en BFS la poda mejora un algoritmo ya bueno; no corrige calidad, pero si achica mucho el costo operacional.</span>
+        <span>8 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">6. DFS vs Greedy</div>
+      <h2>Desinformado vs informado: donde mas se nota el valor heuristico</h2>
+      <p class="subtitle">
+        Para contar esta historia conviene mezclar costo, nodos y tiempo. Asi se ve que la mejora de `Greedy` sobre `DFS` no es solo de velocidad: tambien es de calidad de solucion.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Costo medio por alternativa</h3>
+            <figure>
+              <img src="../results_dfs_allow_deadlocks_advanced/plots/cost_mean_by_alternative.png" alt="Costo medio por alternativa no optima" />
+              <figcaption>`DFS (allow)` se dispara a `2483.2`; `Greedy (static_deadlock)` empata el costo optimo global.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos expandidos</h3>
+            <figure>
+              <img src="../results_dfs_allow_deadlocks_advanced/plots/non_optimal_nodes_expanded_by_level.png" alt="Nodos no optimos" />
+              <figcaption>`Greedy (combined)` gana en los cinco niveles y reduce la busqueda a otra escala.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Tiempo</h3>
+            <figure>
+              <img src="../results_dfs_allow_deadlocks_advanced/plots/non_optimal_time_by_level.png" alt="Tiempo no optimos" />
+              <figcaption>`min_matching` gana los niveles chicos; `combined` recupera la punta en los mas duros.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Lectura fuerte:</strong> frente a `DFS (allow)`, `Greedy (combined)` reduce <strong>98.4% del costo</strong> y <strong>99.6% de los nodos</strong>.</span>
+        <span>9 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">6. DFS vs Greedy</div>
+      <h2>La frontera final puede engañar, y esta comparacion lo deja clarisimo</h2>
+      <p class="subtitle">
+        Esta slide junta las figuras que mejor muestran por que `frontier_count` necesita contexto y como la poda reubica a `DFS` sin volverlo competitivo frente a los informados.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Frontera en no optimos</h3>
+            <figure>
+              <img src="../results_dfs_allow_deadlocks_advanced/plots/non_optimal_frontier_count_by_level.png" alt="Frontera no optimos" />
+              <figcaption>`DFS (allow)` queda por debajo de `Greedy (static_deadlock)` en frontera, pero sigue siendo mucho peor globalmente.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Grouped bar: DFS vs Greedy</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/dfs_vs_greedy_allow_frontier_count_by_level.png" alt="Grouped bar DFS vs Greedy frontera" />
+              <figcaption>La comparacion por familias deja a `static_deadlock` como outlier: buen costo, mala frontera.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Donde queda DFS despues de podar</h3>
+            <figure>
+              <img src="../results_dfs_prune_deadlocks_advanced/plots/non_optimal_nodes_expanded_by_level.png" alt="DFS prune vs Greedy nodos" />
+              <figcaption>`DFS (prune)` mejora mucho, pero sigue muy lejos de `Greedy (combined)` y `Greedy (min_matching)`.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Concluson presentable:</strong> frontier final no resume complejidad; en DFS el drama estaba en las excursiones profundas, no en el ancho final de la frontera.</span>
+        <span>10 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">7. Greedy vs A*</div>
+      <h2>Los dos informados: el precio experimental de exigir optimalidad</h2>
+      <p class="subtitle">
+        Esta comparacion es central para la defensa conceptual del trabajo. `Greedy` explora muchisimo menos, pero `A*` conserva la garantia de costo minimo.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Costo por nivel</h3>
+            <figure>
+              <img src="../results_greedy_vs_a_star_advanced/plots/greedy_vs_a_star_allow_cost_by_level.png" alt="Costo Greedy vs A*" />
+              <figcaption>`Greedy (static_deadlock)` empata el costo optimo, pero no por eso domina la comparativa.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos expandidos</h3>
+            <figure>
+              <img src="../results_greedy_vs_a_star_advanced/plots/greedy_vs_a_star_allow_nodes_expanded_by_level.png" alt="Nodos Greedy vs A*" />
+              <figcaption>`Greedy (combined)` es el campeon operativo; `A*` paga por sostener optimalidad.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Tiempo</h3>
+            <figure>
+              <img src="../results_greedy_vs_a_star_advanced/plots/greedy_vs_a_star_allow_time_seconds_by_level.png" alt="Tiempo Greedy vs A*" />
+              <figcaption>`Greedy (combined)` y `Greedy (min_matching)` dominan claramente cuando importa rapidez.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Dato para enfatizar:</strong> `Greedy (combined)` es <strong>92.0% mas rapido</strong> que `A* (combined)`, pero con costo medio <strong>38.5% peor</strong>.</span>
+        <span>11 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">7. Greedy vs A*</div>
+      <h2>Deep dive: en expansiones pesa mas la familia del algoritmo que la heuristica puntual</h2>
+      <p class="subtitle">
+        Esta es una de las pocas slides donde conviene repetir un grafico ya usado: sirve para mostrar que "elegir `Greedy` o `A*`" cambia mas que elegir entre dos heuristicas dentro de una misma familia.
+      </p>
+      <div class="content two-col">
+        <div class="chart-grid two">
+          <div class="panel chart-card">
+            <h3>Grouped bar: Greedy vs A*</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/greedy_vs_a_star_allow_nodes_expanded_by_level.png" alt="Grouped bar Greedy vs A*" />
+              <figcaption>La distancia entre familias es mas grande que la distancia interna entre heuristicas.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Repeticion util: nodos globales en A*</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/a_star_heuristics_global_nodes_expanded_global.png" alt="Nodos globales A*" />
+              <figcaption>Dentro de `A*`, `combined` domina. Pero aun asi queda lejos de `Greedy (combined)` en nodos.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="panel strong">
+          <ul class="bullet-list">
+            <li><strong>Idea de modelado:</strong> si el objetivo principal fuera bajar nodos, la decision mas grande no es la heuristica sino la familia del algoritmo.</li>
+            <li><strong>`A* (combined)`</strong> sigue siendo la mejor opcion si el costo debe ser optimo.</li>
+            <li><strong>`Greedy (combined)`</strong> aparece como el mejor algoritmo practico cuando se tolera suboptimalidad moderada.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Lectura de presentacion:</strong> la optimalidad tiene un impuesto visible y medible.</span>
+        <span>12 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">8. BFS vs DFS</div>
+      <h2>Sin poda: la comparacion clasica favorece a BFS casi sin matices</h2>
+      <p class="subtitle">
+        Conviene mostrar estas tres figuras juntas porque solo asi se entiende la trampa de `DFS`: a veces parece barato, pero entrega soluciones dramaticamente peores.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Costo por nivel</h3>
+            <figure>
+              <img src="../results_dfs_vs_bfs_allow_deadlocks_advanced/plots/bfs_vs_dfs_allow_cost_by_level.png" alt="Costo BFS vs DFS allow" />
+              <figcaption>`BFS (allow)` mantiene costo optimo; `DFS (allow)` explota en los niveles 2, 3 y 5.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos expandidos</h3>
+            <figure>
+              <img src="../results_dfs_vs_bfs_allow_deadlocks_advanced/plots/bfs_vs_dfs_allow_nodes_expanded_by_level.png" alt="Nodos BFS vs DFS allow" />
+              <figcaption>`DFS` gana en algunos niveles aislados, pero no alcanza para salvarlo.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Tiempo</h3>
+            <figure>
+              <img src="../results_dfs_vs_bfs_allow_deadlocks_advanced/plots/bfs_vs_dfs_time_errorbars.png" alt="Tiempo BFS vs DFS allow" />
+              <figcaption>`DFS` puede parecer rapido en `Pasillo triple`, pero su costo ahi es `470` contra `28` de `BFS`.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Lectura fuerte:</strong> medir nodos o tiempo sin mirar costo puede hacer parecer razonable a una estrategia profundamente miope.</span>
+        <span>13 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">8. BFS vs DFS</div>
+      <h2>Con poda: cambia el ranking de eficiencia, pero no cambia la calidad</h2>
+      <p class="subtitle">
+        Esta es una de las mejores secciones para mostrar que una mejora operacional fuerte no equivale a una mejora de solucion.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Error bars de costo</h3>
+            <figure>
+              <img src="../results_dfs_vs_bfs_prune_deadlocks_advanced/plots/cost_by_level_errorbars.png" alt="Costo error bars BFS vs DFS prune" />
+              <figcaption>La poda no cambia el costo de `DFS`: sigue muy lejos de `BFS`.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Costo por nivel</h3>
+            <figure>
+              <img src="../results_dfs_vs_bfs_prune_deadlocks_advanced/plots/bfs_vs_dfs_prune_cost_by_level.png" alt="Costo BFS vs DFS prune" />
+              <figcaption>La version grouped bar sirve mejor para exponer la separacion entre ambos.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos expandidos</h3>
+            <figure>
+              <img src="../results_dfs_vs_bfs_prune_deadlocks_advanced/plots/bfs_vs_dfs_prune_nodes_expanded_by_level.png" alt="Nodos BFS vs DFS prune" />
+              <figcaption>Con poda, `DFS (prune)` gana 4 de 5 niveles y tambien el promedio global en nodos.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Mensaje oral sugerido:</strong> la poda rescata la eficiencia de `DFS`, pero no corrige su sesgo de calidad.</span>
+        <span>14 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">9. DFS allow vs prune</div>
+      <h2>DFS es el algoritmo donde la poda cambia mas el panorama</h2>
+      <p class="subtitle">
+        Estas tres figuras son ideales para contar una leccion causal: los deadlocks eran buena parte del problema operacional de `DFS`.
+      </p>
+      <div class="content">
+        <div class="chart-grid three">
+          <div class="panel chart-card">
+            <h3>Frontera final</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/dfs_frontier_count_prune_vs_allow_by_level.png" alt="Frontera DFS allow vs prune" />
+              <figcaption>La frontera casi no cambia: apenas `0.2%` menos en promedio.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Nodos expandidos</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/dfs_nodes_expanded_prune_vs_allow_by_level.png" alt="Nodos DFS allow vs prune" />
+              <figcaption>Los nodos caen de `124328.0` a `8029.8`: <strong>93.5% menos</strong>.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>Tiempo</h3>
+            <figure>
+              <img src="../results_barras_advanced/plots/dfs_policy_sensitivity_time_seconds_by_level.png" alt="Tiempo DFS policy sensitivity" />
+              <figcaption>En tiempo la mejora global es de <strong>88.0%</strong>; solo `Nivel 1` sale peor por overhead.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Lectura fuerte:</strong> en DFS el drama no era el ancho final de la frontera, sino las excursiones profundas hacia estados muertos.</span>
+        <span>15 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">10. Prune en contexto</div>
+      <h2>Una misma mejora no impacta igual en BFS y en DFS</h2>
+      <p class="subtitle">
+        Esta slide vuelve a reunir los cuatro graficos de sensibilidad a la politica para mostrar el contraste completo. Aca se ve por que `prune` es tan importante como componente de la solucion.
+      </p>
+      <div class="content two-col">
+        <div class="chart-grid four">
+          <div class="panel chart-card">
+            <h3>BFS: frontera</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/bfs_frontier_count_prune_vs_allow_by_level.png" alt="BFS frontera allow vs prune repetido" />
+              <figcaption>La poda limpia capas enteras de estados muertos.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>BFS: nodos</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/bfs_nodes_expanded_prune_vs_allow_by_level.png" alt="BFS nodos allow vs prune repetido" />
+              <figcaption>Mejora operativa fuerte con costo final preservado.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>DFS: frontera</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/dfs_frontier_count_prune_vs_allow_by_level.png" alt="DFS frontera allow vs prune repetido" />
+              <figcaption>Casi no se mueve: ahi no estaba el problema principal.</figcaption>
+            </figure>
+          </div>
+          <div class="panel chart-card">
+            <h3>DFS: nodos</h3>
+            <figure>
+              <img src="../results_bfs_dfs_prune_vs_allow_advanced/plots/dfs_nodes_expanded_prune_vs_allow_by_level.png" alt="DFS nodos allow vs prune repetido" />
+              <figcaption>La poda le cambia la escala de complejidad a DFS.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="panel strong">
+          <ul class="bullet-list">
+            <li><strong>En BFS</strong>, `prune` mejora un algoritmo ya correcto en costo.</li>
+            <li><strong>En DFS</strong>, `prune` rescata un algoritmo que sin poda hacia demasiado trabajo inutil.</li>
+            <li><strong>Asimetria clave:</strong> la misma tecnica mejora a ambos, pero por razones operativas distintas.</li>
+            <li><strong>Mensaje de arquitectura:</strong> la calidad de una solucion en Sokoban sale de combinar estrategia de busqueda con conocimiento estructural del dominio.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Slide de sintesis:</strong> explica por que la poda no es un detalle menor sino una parte central del resultado final.</span>
+        <span>16 / 17</span>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">11. Cierre</div>
+      <h2>Que recomendaria segun el objetivo de la corrida</h2>
+      <p class="subtitle">
+        La presentacion puede cerrar con una matriz de decision simple y una frase final: en Sokoban no alcanza con elegir "el algoritmo correcto"; hay que combinar estrategia, heuristica y poda.
+      </p>
+      <div class="content two-col">
+        <div class="panel strong">
+          <table class="matrix">
+            <thead>
+              <tr>
+                <th>Objetivo</th>
+                <th>Algoritmo recomendado</th>
+                <th>Por que</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Optimalidad con buena eficiencia</strong></td>
+                <td>`A* (combined)`</td>
+                <td>Mismo costo que `BFS`, pero con mucha menos exploracion y mejor robustez global.</td>
+              </tr>
+              <tr>
+                <td><strong>Velocidad practica</strong></td>
+                <td>`Greedy (combined)`</td>
+                <td>Es el mejor compromiso operativo cuando se tolera suboptimalidad moderada.</td>
+              </tr>
+              <tr>
+                <td><strong>Baseline desinformado fuerte</strong></td>
+                <td>`BFS (prune)`</td>
+                <td>La poda lo vuelve mucho mas competitivo sin perder optimalidad.</td>
+              </tr>
+              <tr>
+                <td><strong>Mostrar impacto de prune</strong></td>
+                <td>`DFS (allow)` vs `DFS (prune)`</td>
+                <td>Es la comparacion donde el efecto causal de la poda se ve con mas claridad.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <ul class="takeaways">
+            <li><strong>Frase 1:</strong> `A* (combined)` es la mejor respuesta cuando importa costo optimo y tambien importa escalar.</li>
+            <li><strong>Frase 2:</strong> `Greedy (combined)` muestra que la informacion heuristica puede ganar muchisima eficiencia si se acepta renunciar a optimalidad estricta.</li>
+            <li><strong>Frase 3:</strong> `static_deadlock` es valioso, pero como parte de una solucion mas rica: podar solo no reemplaza a una heuristica que sepa ordenar.</li>
+            <li><strong>Frase final:</strong> la mejor performance aparece cuando se combinan una estrategia adecuada, una heuristica realmente informativa y una poda estructural del dominio.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <span><strong>Cierre sugerido:</strong> "en Sokoban, los mejores resultados salen de combinar inteligencia de algoritmo e inteligencia del problema".</span>
+        <span>17 / 17</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="progress" aria-hidden="true">
+    <span class="slide-number">1 / 17</span>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+
+  <div class="nav" aria-label="Navegacion de diapositivas">
+    <button type="button" id="prevBtn" aria-label="Diapositiva anterior">&#8592;</button>
+    <button type="button" id="nextBtn" aria-label="Siguiente diapositiva">&#8594;</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const progressFill = document.querySelector(".progress-fill");
+    const slideNumber = document.querySelector(".slide-number");
+
+    let current = 0;
+
+    function updateSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === current);
+      });
+      const progress = ((current + 1) / slides.length) * 100;
+      progressFill.style.width = `${progress}%`;
+      slideNumber.textContent = `${current + 1} / ${slides.length}`;
+      window.location.hash = `slide-${current + 1}`;
+    }
+
+    function nextSlide() {
+      updateSlide(current + 1);
+    }
+
+    function prevSlide() {
+      updateSlide(current - 1);
+    }
+
+    function jumpFromHash() {
+      const match = window.location.hash.match(/slide-(\d+)/);
+      if (!match) return;
+      const target = Number(match[1]) - 1;
+      if (!Number.isNaN(target)) {
+        updateSlide(target);
+      }
+    }
+
+    prevBtn.addEventListener("click", prevSlide);
+    nextBtn.addEventListener("click", nextSlide);
+
+    document.addEventListener("keydown", (event) => {
+      if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+        event.preventDefault();
+        nextSlide();
+      }
+      if (["ArrowLeft", "PageUp", "Backspace"].includes(event.key)) {
+        event.preventDefault();
+        prevSlide();
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        updateSlide(0);
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        updateSlide(slides.length - 1);
+      }
+      if (event.key.toLowerCase() === "f") {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      }
+    });
+
+    window.addEventListener("hashchange", jumpFromHash);
+    jumpFromHash();
+    updateSlide(current);
+  </script>
+</body>
+</html>
