@@ -42,7 +42,7 @@ heuristic_registry: dict[str, HeuristicFn] = {
     "zero": h_zero,
     "static_deadlock": h_static_deadlock,
     "min_matching": h_min_matching,
-    "combined": h_combined,
+    "combined": make_combined_heuristic("min_matching"),
 }
 
 
@@ -64,6 +64,8 @@ def resolve_heuristic(
         raise ValueError(f"Unknown heuristic: {heuristic}")
 
     if heuristic == "combined":
+        if base_heuristic == "combined":
+            raise ValueError("base_heuristic cannot be 'combined' (infinite recursion)")
         return make_combined_heuristic(base_heuristic or "min_matching")
 
     return heuristic_registry[heuristic]
