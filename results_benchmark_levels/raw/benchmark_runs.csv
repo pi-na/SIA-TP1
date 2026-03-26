@@ -1,5 +1,0 @@
-levels_file,level_name,level_index,run_id,iteration,seed,run_seed,algorithm,algorithm_label,heuristic,category,solver_label,deadlock_policy,allow_deadlocks,time_seconds,cost,nodes_expanded,frontier_count,result
-/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 1 - Intro,1,1,1,42,42,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,7.141599780879915e-05,1,1,3,Success
-/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 2 - Dos cajas,2,2,1,42,43,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0005471250042319298,7,43,15,Success
-/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 3 - Sala abierta,3,3,1,42,44,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0018366670119576156,15,133,91,Success
-/Users/tomaspinausig/code/SIA-TP1/levels/benchmark_levels.txt,Nivel 4 - Pasillo,4,4,1,42,45,a_star,A*,combined,optimal,"A* (combined, allow)",allow,True,0.0013932080182712525,13,129,29,Success
