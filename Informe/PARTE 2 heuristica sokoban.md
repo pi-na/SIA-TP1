@@ -8,11 +8,11 @@ En Sokoban queremos llevar todas las cajas a las metas. Segun el enunciado del T
 
 La primera heuristica con la que estamos trabajando es una heuristica de asignacion entre cajas y metas. La idea es numerar las cajas solo para poder indexarlas y, para cada estado, buscar la mejor asignacion uno a uno entre cajas y metas.
 
-Formalmente, si `B = {b1, ..., bn}` es el conjunto de cajas y `G = {g1, ..., gn}` es el conjunto de metas, definimos:
+Formalmente, sea `B = state.boxes - state.goals` el conjunto de cajas que aun no estan en una meta y `G = state.goals - state.boxes` el conjunto de metas que aun no estan ocupadas. Definimos:
 
 `h_match(s) = min_sigma sum_i Manhattan(pos_s(b_i), sigma(g_i))`
 
-donde `sigma` recorre todas las asignaciones biyectivas entre cajas y metas.
+donde `sigma` recorre todas las asignaciones biyectivas entre cajas no colocadas y metas no ocupadas.
 
 ### Intuicion
 
@@ -102,7 +102,7 @@ Esto mantiene admisibilidad porque el maximo de dos heuristicas admisibles sigue
 
 ## Estado actual del repositorio
 
-Hoy el repositorio no implementa todavia la heuristica de matching minimo. Lo que si esta implementado es toda la infraestructura para usarla despues junto con la heuristica de deadlocks estaticos.
+El repositorio implementa completamente ambas heuristicas y la combinacion entre ellas. A continuacion se describe la relacion entre cada modulo y las heuristicas presentadas.
 
 ### 1. Representacion del tablero
 
@@ -124,7 +124,7 @@ Tambien define:
 Relacion con nuestras heuristicas:
 
 - `h_static_deadlock` depende directamente de `BoardLayout` porque trabaja sobre el layout fijo.
-- `h_match` usaria las posiciones actuales de `state.boxes` y `state.goals`, pero no necesita modificar el layout.
+- `h_min_matching` lee las posiciones actuales de `state.boxes` y `state.goals` para calcular la asignacion; no necesita modificar el layout.
 
 ### 2. Representacion del estado
 
@@ -148,9 +148,9 @@ Funciones relevantes:
 
 Relacion con nuestras heuristicas:
 
-- `has_static_deadlock()` es la base de la heuristica implementada hoy.
-- `moved_box_into_forbidden_tile(...)` usa el mismo analisis no solo para evaluar, sino tambien para podar sucesores invalidos al generar movimientos.
-- `h_match`, cuando se implemente, trabajara principalmente leyendo `state.boxes`, `state.goals` y opcionalmente `state.player`.
+- `has_static_deadlock()` es la base de `h_static_deadlock`.
+- `moved_box_into_forbidden_tile(...)` usa el mismo analisis para podar sucesores invalidos al generar movimientos.
+- `h_min_matching` opera sobre `state.boxes - state.goals` (cajas no colocadas) y `state.goals - state.boxes` (metas no ocupadas).
 
 ### 3. Analisis de deadlocks estaticos
 
@@ -160,7 +160,7 @@ Funciones y estructuras relevantes:
 
 - `StaticDeadlockAnalysis`: guarda `reachable_box_tiles` y `forbidden_box_tiles`.
 - `compute_static_deadlocks(layout)`: calcula el analisis por busqueda inversa desde las metas.
-- `dump_deadlock_mask(layout)`: genera una visualizacion textual de la mascara.
+- `render(layout)`: genera una visualizacion textual de la mascara.
 
 Detalles importantes:
 
@@ -169,35 +169,53 @@ Detalles importantes:
 
 Relacion con nuestras heuristicas:
 
-- esta es la implementacion concreta de la segunda heuristica sobre la que estamos trabajando;
-- ademas, prepara el terreno para combinar luego esa heuristica con `h_match`.
+- esta es la implementacion concreta de la segunda heuristica descripta en este informe;
+- se combina con `h_min_matching` mediante el operador `max`.
 
-### 4. Registro y combinacion de heuristicas
+### 4. Matching minimo entre cajas y metas
 
-`src/heuristics/sokoban_heuristics.py` define la API actual de heuristicas.
+`src/heuristics/min_matching.py` implementa `h_min_matching`.
+
+Funcionamiento interno:
+
+- calcula `boxes = list(state.boxes - state.goals)` y `goals = list(state.goals - state.boxes)`, es decir, solo considera cajas no colocadas y metas no ocupadas;
+- si no quedan cajas por colocar, retorna `0` inmediatamente (short-circuit);
+- si queda exactamente una caja, retorna la distancia Manhattan directa sin involucrar numpy;
+- para dos o mas cajas, construye la matriz de costos Manhattan y la resuelve con `scipy.optimize.linear_sum_assignment`, que implementa el algoritmo hungaro en `O(n^3)`.
+
+Relacion con nuestras heuristicas:
+
+- esta es la implementacion concreta de la primera heuristica descripta en este informe;
+- al operar solo sobre cajas no colocadas, evita trabajo innecesario y mantiene la admisibilidad.
+
+### 5. Registro y combinacion de heuristicas
+
+`src/heuristics/sokoban_heuristics.py` define la API de heuristicas.
 
 Funciones relevantes:
 
 - `h_zero(state)`: devuelve `0`.
 - `h_static_deadlock(state)`: devuelve `inf` si el estado tiene deadlock estatico, y `0` en caso contrario.
+- `h_min_matching(state)`: importada desde `src/heuristics/min_matching.py`.
 - `resolve_base_heuristic(...)`: resuelve la heuristica base a combinar.
 - `h_combined(state, base_heuristic=None)`: devuelve `max(base_heuristic(state), h_static_deadlock(state))`.
 - `make_combined_heuristic(...)`: fabrica una version cerrada de la heuristica combinada.
-- `resolve_heuristic(...)`: traduce nombres como `"zero"`, `"static_deadlock"` y `"combined"` a funciones reales.
+- `resolve_heuristic(...)`: traduce nombres a funciones reales.
 
-Relacion con nuestras heuristicas:
+Registro de nombres:
 
-- la heuristica de deadlocks estaticos ya esta implementada como `h_static_deadlock`;
-- la combinacion por `max` ya esta implementada como `h_combined`;
-- cuando agreguemos `h_match`, podra usarse como `base_heuristic` y combinarse sin cambiar la arquitectura actual.
+- `"zero"` -> `h_zero`
+- `"static_deadlock"` -> `h_static_deadlock`
+- `"min_matching"` -> `h_min_matching`
+- `"combined"` -> `make_combined_heuristic("min_matching")`, es decir, `max(h_min_matching, h_static_deadlock)`.
 
-En otras palabras, el repositorio ya esta preparado para la dupla conceptual:
+La heuristica combinada que se usa en la practica es:
 
-`h_total = max(h_match, h_static_deadlock)`
+`h_total(s) = max(h_min_matching(s), h_static_deadlock(s))`
 
-Aunque hoy solo una de esas dos piezas exista de forma concreta.
+Esta combinacion esta operativa y se invoca por nombre como `"combined"`.
 
-### 5. Motor de busqueda
+### 6. Motor de busqueda
 
 `src/engine/search.py` implementa los metodos de busqueda:
 
@@ -209,10 +227,13 @@ Aunque hoy solo una de esas dos piezas exista de forma concreta.
 Funciones y piezas relevantes:
 
 - `Node`: guarda estado, padre, accion, costo y heuristica.
+- `HeuristicCache`: cachea evaluaciones de la heuristica por estado, evitando recalculos.
 - `get_solution(node)`: reconstruye el camino solucion.
 - `_normalize_method(...)`: unifica `astar` y `a*`.
 - `_get_priority(...)`: define la prioridad de cada metodo.
-- `search(...)`: ejecuta la busqueda.
+- `search(...)`: punto de entrada que delega a `_search_standard` o `_search_a_star`.
+
+A* tiene una implementacion dedicada (`_search_a_star`) que reabre nodos cerrados cuando encuentra un camino mas corto al mismo estado. Esto garantiza optimalidad con heuristicas admisibles. El motor registra metricas de `stale_skipped` y `reopened_states` para diagnostico.
 
 Relacion con nuestras heuristicas:
 
@@ -221,37 +242,32 @@ Relacion con nuestras heuristicas:
 - si un sucesor da `inf`, ese sucesor se descarta;
 - el costo acumulado crece de a `1` por accion.
 
-Esto encaja bien con nuestras dos heuristicas:
+Las tres heuristicas se integran asi:
 
-- `h_static_deadlock` se usa para poda fuerte;
-- `h_match` serviria para ordenar mejor la frontera en `Greedy` y `A*`.
+- `h_static_deadlock` poda estados irresolubles;
+- `h_min_matching` ordena la frontera segun la distancia estimada;
+- `h_combined` aprovecha ambos efectos simultaneamente.
 
-### 6. Punto de entrada y estado de implementacion
+### 7. Pipeline de benchmark
 
-`src/main.py` crea un ejemplo minimo de Sokoban y ejecuta una busqueda BFS.
+`src/main.py` define el pipeline de experimentacion. La grilla de metodos (`METHOD_GRID`) ejercita las tres heuristicas en combinacion con Greedy y A*:
 
-Tambien define una funcion:
+- `Greedy (static_deadlock)`, `Greedy (min_matching)`, `Greedy (combined)`
+- `A* (static_deadlock)`, `A* (min_matching)`, `A* (combined)`
 
-- `mi_heuristica(state)`
+Ademas incluye BFS y DFS como lineas base sin heuristica.
 
-que hoy es solo un placeholder y devuelve `0`.
-
-Relacion con nuestras heuristicas:
-
-- `mi_heuristica` es el lugar mas directo para probar una primera version de `h_match`;
-- alternativamente, `h_match` deberia integrarse al registro de `src/heuristics/sokoban_heuristics.py` para que pueda usarse por nombre y combinarse con `static_deadlock`.
+Cada configuracion se ejecuta multiples veces por nivel, registrando tiempo, nodos expandidos, nodos frontera, costo, estados reabiertos y cache hits de la heuristica. Los resultados se exportan como CSV/Parquet y se generan graficos comparativos automaticamente.
 
 ## Conclusiones
 
-Hoy estamos trabajando conceptualmente con dos heuristicas admisibles:
+El repositorio implementa completamente las dos heuristicas admisibles presentadas:
 
-1. una heuristica de matching minimo entre cajas y metas para estimar pushes pendientes;
-2. una heuristica de deadlocks estaticos para detectar estados irresolubles.
+1. una heuristica de matching minimo (`h_min_matching`) que resuelve la asignacion optima entre cajas no colocadas y metas no ocupadas usando el algoritmo hungaro;
+2. una heuristica de deadlocks estaticos (`h_static_deadlock`) que detecta estados irresolubles mediante busqueda inversa desde las metas.
 
-De esas dos, el repositorio ya implementa completamente la segunda y ya tiene la estructura necesaria para combinarla con la primera cuando se agregue.
+Ambas se combinan mediante:
 
-En este momento, la relacion entre idea y codigo queda asi:
+`h_total(s) = max(h_min_matching(s), h_static_deadlock(s))`
 
-- la heuristica de deadlocks estaticos ya esta operativa;
-- la combinacion por `max` ya esta resuelta;
-- la heuristica de matching minimo todavia no esta implementada, pero encaja de forma natural en la arquitectura actual.
+Esta combinacion esta registrada como `"combined"` y es la heuristica principal utilizada en los experimentos. A* reabre nodos cerrados cuando encuentra caminos mas cortos, garantizando optimalidad con estas heuristicas admisibles. El pipeline de benchmark ejercita todas las variantes y genera reportes comparativos de forma automatica.
