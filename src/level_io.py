@@ -134,7 +134,6 @@ def load_levels_from_file(levels_file: str | Path) -> list[LevelDefinition]:
                 f"Level block {index} in '{source_file}' does not contain a board."
             )
 
-        build_state_from_ascii(board_text, level_name=title)
         levels.append(
             LevelDefinition(
                 source_file=source_file,

@@ -334,6 +334,9 @@ def run_custom_experiments(
                         "nodes_expanded": result.get("nodes_expanded", 0),
                         "frontier_count": result.get("frontier_count", 0),
                         "result": result.get("result", "Failure"),
+                        "stale_skipped": result.get("stale_skipped", 0),
+                        "reopened_states": result.get("reopened_states", 0),
+                        "heuristic_cache_hits": result.get("heuristic_cache_hits", 0),
                     }
                 )
 

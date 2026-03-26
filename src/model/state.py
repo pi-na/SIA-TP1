@@ -62,7 +62,7 @@ class SokobanState:
                 elif position == self.player:
                     current_row += "P" if position not in self.goals else "+"  # Jugador / Jugador en meta
                 elif position in self.boxes:
-                    current_row += "X" if position in self.goals else "$"  # Caja en meta / Caja sola
+                    current_row += "*" if position in self.goals else "$"  # Caja en meta / Caja sola
                 elif position in self.goals:
                     current_row += "."  # Objetivo vacío
                 else:
@@ -133,12 +133,11 @@ class SokobanState:
         return successors
 
     def __hash__(self):
-        return hash((self.player, self.boxes, self._board_layout))
+        return hash((self.player, self.boxes))
 
     def __eq__(self, other):
         return (
             isinstance(other, SokobanState)
             and self.player == other.player
             and self.boxes == other.boxes
-            and self._board_layout == other._board_layout
         )

@@ -76,7 +76,7 @@ Greedy es rápido pero no óptimo.
 f(n) = G(n) + h(n)  
 ## ¿Cuándo es óptimo?
 
-A* es óptimo si la heurística es admisible (y mejor si es consistente).
+A* es óptimo si la heurística es admisible (la implementación reabre nodos cerrados cuando encuentra un camino más barato). Si además es consistente, A* nunca necesita reabrir nodos, lo que mejora eficiencia.
 Si la heurística sobreestima → A* deja de ser óptimo.
 
 ### Resumen A*
@@ -84,9 +84,9 @@ Si la heurística sobreestima → A* deja de ser óptimo.
 |Heurística|¿Óptimo?|
 |---|---|
 |Admisible|Sí|
-|Consistente|Sí|
+|Consistente|Sí (y más eficiente)|
 |Sobreestima|No|
-|h = 0|Sí (se vuelve BFS)|
+|h = 0|Sí (se vuelve UCS, equivalente a BFS con costos unitarios)|
 
 # Resumen
 Orden típico de calidad:
