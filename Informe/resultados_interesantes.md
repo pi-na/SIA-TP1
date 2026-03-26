@@ -99,12 +99,12 @@ Comparativa entre `DFS (prune)` y `Greedy (allow)`. Muestra cuánto mejora DFS c
 
 Todas las corridas resumidas en esta carpeta tuvieron `success_rate = 1.0`. La tabla siguiente consolida los promedios globales por solver:
 
-| Solver | Tiempo medio | Nodos expandidos | Frontera final | Costo |
-|---|---:|---:|---:|---:|
-| Greedy (combined, allow) | 0.000193 s | 20 | 14.75 | 9 |
-| Greedy (min_matching, allow) | 0.000208 s | 22.50 | 17.50 | 10 |
-| Greedy (static_deadlock, allow) | 0.000397 s | 74.25 | 37 | 15.25 |
-| DFS (prune) | 0.000408 s | 108.25 | 50.25 | 65 |
+| Solver                          | Tiempo medio | Nodos expandidos | Frontera final | Costo |     |
+| ------------------------------- | -----------: | ---------------: | -------------: | ----: | --- |
+| Greedy (combined, allow)        |   0.000193 s |               20 |          14.75 |     9 |     |
+| Greedy (min_matching, allow)    |   0.000208 s |            22.50 |          17.50 |    10 |     |
+| Greedy (static_deadlock, allow) |   0.000397 s |            74.25 |             37 | 15.25 |     |
+| DFS (prune)                     |   0.000408 s |           108.25 |          50.25 |    65 |     |
 
 ### `results_dfs_vs_bfs_prune_deadlocks/cost_by_level_errorbars.png`
 
