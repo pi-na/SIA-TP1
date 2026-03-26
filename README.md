@@ -11,11 +11,12 @@ Trabajo Practico 1 de Sistemas de Inteligencia Artificial (ITBA). El proyecto im
 - matplotlib
 - seaborn
 - pytest
+- pygame
 
 ## Instalacion
 
 ```bash
-pip install scipy numpy pandas matplotlib seaborn pytest
+pip install scipy numpy pandas matplotlib seaborn pytest pygame
 ```
 
 ## Estructura del proyecto
@@ -36,6 +37,23 @@ src/
   level_io.py              # Parser ASCII y loader de archivos de niveles
   demo_static_deadlocks.py # Demo de visualizacion de deadlocks
   main.py                  # Runner experimental generico
+  ui/
+    app.py                 # Entry point de la app Pygame
+    app_controller.py      # State machine de pantallas
+    constants.py           # Colores, fuentes, strings en español
+    game/
+      game_session.py      # Logica de juego manual (move, undo, reset)
+      replay_session.py    # Timeline de estados para reproduccion
+    solver/
+      method_definitions.py # 8 combinaciones algoritmo+heuristica
+      comparison_table.py  # Marcado de soluciones optimas
+      solver_worker.py     # Ejecucion en background thread
+    renderer/
+      board_renderer.py    # Renderizado tile-based del tablero
+    screens/
+      level_select_screen.py # Selector de niveles
+      play_screen.py       # Juego manual + comparacion + replay
+    widgets/               # Componentes UI reutilizables
 tests/
   conftest.py              # Helper compartido build_state
   test_search_astar.py     # Tests de A* con reapertura de nodos
@@ -46,12 +64,68 @@ tests/
   test_deadlock_policy.py
   test_benchmark_script.py
   test_experiment_runner.py
+  test_ui_comparison.py    # Tests de comparacion y marcado de optimas
+  test_ui_replay.py        # Tests de replay y sesion de juego
+  test_ui_smoke.py         # Smoke test de la UI (headless)
 scripts/
   run_benchmark_levels.py           # Runner configurable con grid custom
   run_selected_advanced_benchmarks.py # Benchmarks sobre niveles avanzados
   generate_bar_comparisons.py       # Genera suites de graficos de barras
 Informe/
 ```
+
+## Juego interactivo (Pygame)
+
+La app Pygame permite jugar niveles manualmente, comparar los 8 metodos de busqueda sobre el nivel actual y reproducir cualquier solucion paso a paso.
+
+### Ejecutar
+
+```bash
+python3 -m src.ui
+```
+
+Con un archivo de niveles especifico:
+
+```bash
+python3 -m src.ui --levels-file levels/original_levels.txt
+```
+
+### Pantallas
+
+#### Selector de niveles
+
+- Muestra la lista de niveles cargados con una preview grafica del nivel seleccionado.
+- Boton **Cargar archivo...** para abrir cualquier coleccion ASCII desde el explorador de archivos.
+- Boton **Jugar** para entrar al nivel seleccionado.
+
+#### Juego manual
+
+- **Flechas** del teclado para mover al jugador.
+- **Z** para deshacer el ultimo movimiento.
+- **R** para reiniciar el nivel.
+- El contador de movimientos se muestra en pantalla. Al resolver el nivel aparece el mensaje "Nivel resuelto!".
+
+#### Comparacion de algoritmos
+
+En el panel derecho de la pantalla de juego:
+
+- 8 checkboxes con las combinaciones algoritmo+heuristica (todas marcadas por defecto): BFS, DFS, Greedy (static_deadlock, min_matching, combined) y A* (static_deadlock, min_matching, combined).
+- Boton **Resolver** para ejecutar los metodos seleccionados en segundo plano (sin congelar la ventana).
+- La tabla de resultados muestra para cada metodo: resultado, costo, tiempo, nodos expandidos, frontera y pasos.
+- Las soluciones con menor costo se marcan como **optimas** (resaltadas en verde). Si varias empatan en el minimo, todas se marcan.
+- Las filas con resultado "Fallo" aparecen en gris y no son seleccionables.
+
+#### Reproduccion de soluciones
+
+- Seleccionar una fila exitosa en la tabla y pulsar **Reproducir**.
+- **Espacio** para pausar/reanudar la reproduccion automatica.
+- **Flecha derecha** para avanzar un paso.
+- **Flecha izquierda** para retroceder un paso.
+- **Slider de velocidad** de 0.5x a 10x (default 2x).
+- Indicador de progreso: "Paso N / Total".
+- Boton **Volver** para regresar al modo de juego manual.
+
+---
 
 ## Runner experimental
 
@@ -200,7 +274,7 @@ python3 -m src.demo_static_deadlocks
 
 ## Tests
 
-Todos los tests (36 tests):
+Todos los tests (62 tests):
 
 ```bash
 python3 -m pytest tests/ -v
@@ -214,6 +288,9 @@ python3 -m pytest tests/test_search_algorithms.py -v    # DFS, Greedy, roundtrip
 python3 -m pytest tests/test_min_matching.py -v         # Hungaro y admisibilidad
 python3 -m pytest tests/test_static_deadlocks.py -v     # Deadlocks estaticos
 python3 -m pytest tests/test_level_io.py -v             # Parser de niveles
+python3 -m pytest tests/test_ui_comparison.py -v        # Comparacion y optimas
+python3 -m pytest tests/test_ui_replay.py -v            # Replay y sesion de juego
+python3 -m pytest tests/test_ui_smoke.py -v             # Smoke test UI (headless)
 ```
 
 ## Algoritmos de busqueda
